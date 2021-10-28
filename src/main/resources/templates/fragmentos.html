@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<!--Navbar-->
+<nav th:fragment="navbar" class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">Inicio</a>
+        <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler"
+                data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mb-2 mb-md-0 w-100">
+                <!--DROPDOWN LIBROS-->
+                <li class="nav-item dropdown">
+                    <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                       id="dropdown-libros" role="button">
+                        Libros
+                    </a>
+                    <ul aria-labelledby="dropdown-usuarios" class="dropdown-menu dropdown-menu-dark">
+                        <li>
+                            <a class="dropdown-item" th:href="@{/libros/todos}">Mostrar todos</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" th:href="@{/libros/crear}">Crear libro</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!--DROPDOWN AUTORES-->
+                <li class="nav-item dropdown">
+                    <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                       id="dropdown-autores" role="button">
+                        Autores
+                    </a>
+                    <ul aria-labelledby="dropdown-usuarios" class="dropdown-menu dropdown-menu-dark">
+                        <li>
+                            <a class="dropdown-item" th:href="@{/autores/todos}">Mostrar todos</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" th:href="@{/autores/crear}">Crear autor</a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <!--DROPDOWN EDITORIALES-->
+                <li class="nav-item dropdown">
+                    <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                       id="dropdown-editoriales" role="button">
+                        Editoriales
+                    </a>
+                    <ul aria-labelledby="dropdown-mascotas" class="dropdown-menu dropdown-menu-dark">
+                        <li><a class="dropdown-item" th:href="@{/editoriales/todos}">Mostrar todas</a></li>
+                        <li>
+                            <a class="dropdown-item" th:href="@{/editoriales/crear}">Crear editorial</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!--Footer-->
+<footer th:fragment="footer" class="bg-dark text-center text-white sticky-bottom">
+    <!-- Grid container -->
+    <div class="container p-4 pb-0">
+        <!-- Section: Social media -->
+        <section class="mb-4">
+            <!-- Facebook -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+            ><i class="fab fa-facebook-f"></i
+            ></a>
+
+            <!-- Twitter -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+            ><i class="fab fa-twitter"></i
+            ></a>
+
+            <!-- Google -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+            ><i class="fab fa-google"></i
+            ></a>
+
+            <!-- Instagram -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+            ><i class="fab fa-instagram"></i
+            ></a>
+
+            <!-- Linkedin -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+            ><i class="fab fa-linkedin-in"></i
+            ></a>
+
+            <!-- Github -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+            ><i class="fab fa-github"></i
+            ></a>
+        </section>
+        <!-- Section: Social media -->
+    </div>
+    <!-- Grid container -->
+
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        &copy; DDB 👽 - 2021
+    </div>
+    <!-- Copyright -->
+</footer>
+
+
+
+
+
+
+</html>
