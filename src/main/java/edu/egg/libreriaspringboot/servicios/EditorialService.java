@@ -51,6 +51,11 @@ public class EditorialService {
     public void modificarEditorial(Integer id, String nombre) {
         repositorio.modificarNombreEditorial(id, nombre);
     }
+
+    @Transactional
+    public void habilitarEditorial(Integer id) {
+        repositorio.habilitarEditorial(id);
+    }
 }
 
 

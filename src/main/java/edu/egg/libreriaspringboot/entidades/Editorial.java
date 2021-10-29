@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @SQLDelete(sql = "UPDATE Editorial e SET e.alta = false WHERE e.id = ?")
-@Where(clause = "alta = true")
+//@Where(clause = "alta = true")
 public class Editorial {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

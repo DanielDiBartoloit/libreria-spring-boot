@@ -19,4 +19,8 @@ public interface EditorialRepositorio extends JpaRepository<Editorial,Integer> {
     @Modifying
     @Query("UPDATE Editorial e SET e.nombre = :nombre WHERE e.id = :id")
     void modificarNombreEditorial(@Param("id") Integer id,@Param("nombre") String nombre);
+
+    @Modifying
+    @Query("UPDATE Autor a SET a.alta = true WHERE a.id = :id")
+    void habilitarEditorial(@Param("id") Integer id);
 }

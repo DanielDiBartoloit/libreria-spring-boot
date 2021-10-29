@@ -44,6 +44,12 @@ public class EditorialControlador {
         return new RedirectView("/editoriales/todos");
     }
 
+    @PostMapping("/habilitar/{id}")
+    public RedirectView habilitarAutor(@PathVariable Integer id){
+        servicioEditorial.habilitarEditorial(id);
+        return new RedirectView("/editoriales/todos");
+    }
+
     @GetMapping("/buscar")
     public ModelAndView buscarEditorial(@RequestParam String keyword){
         ModelAndView mav = new ModelAndView("autor");
