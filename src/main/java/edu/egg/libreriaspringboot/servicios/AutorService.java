@@ -50,4 +50,9 @@ public class AutorService {
     public void modificarAutor(Integer id, String nombre) {
         repositorio.modificarNombreAutor(id, nombre);
     }
+
+    @Transactional
+    public void habilitarAutor(Integer id) {
+        repositorio.habilitarAutor(id);
+    }
 }

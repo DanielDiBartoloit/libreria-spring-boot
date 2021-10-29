@@ -50,6 +50,12 @@ public class AutorControlador {
         return new RedirectView("/autores/todos");
     }
 
+    @PostMapping("/habilitar/{id}")
+    public RedirectView habilitarAutor(@PathVariable Integer id){
+        servicioAutor.habilitarAutor(id);
+        return new RedirectView("/autores/todos");
+    }
+
     @GetMapping("/editar/{id}")
     public ModelAndView editarAutor(@PathVariable Integer id){
         ModelAndView mav = new ModelAndView("autor-formulario");
