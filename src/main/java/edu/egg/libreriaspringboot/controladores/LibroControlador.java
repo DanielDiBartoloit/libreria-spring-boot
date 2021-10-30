@@ -40,8 +40,8 @@ public class LibroControlador {
         mav.addObject("libro", new Libro());
         mav.addObject("autores", servicioAutor.obtenerAutores());
         mav.addObject("editoriales",servicioEditorial.obtenerEditoriales());
-        mav.addObject("title", "Libro");
-        mav.addObject("action", "Crear");
+        mav.addObject("title", "Formulario nuevo Libro");
+        mav.addObject("action", "guardar");
         mav.addObject("seleccion", "Seleccione un Autor");
         return mav;
     }
@@ -69,6 +69,25 @@ public class LibroControlador {
         ModelAndView mav = new ModelAndView("libros");
         mav.addObject("libros", servicioLibro.buscarPorNombre(keyword));
         return mav;
+    }
+
+    @GetMapping("/editar/{id}")
+    public ModelAndView editarLibro(@PathVariable Integer id){
+        ModelAndView mav = new ModelAndView("libro-formulario");
+        mav.addObject("libro", servicioLibro.buscarPorId(id));
+        mav.addObject("autores", servicioAutor.obtenerAutores());
+        mav.addObject("editoriales",servicioEditorial.obtenerEditoriales());
+        mav.addObject("title", "Editar Libro");
+        mav.addObject("action", "modificar");
+        return mav;
+
+    }
+
+    @PostMapping("/modificar")
+    public RedirectView modificarLibro(@RequestParam Integer id, @RequestParam Long isbn, @RequestParam String titulo, @RequestParam Integer anio, @RequestParam Integer ejemplares, @RequestParam Integer ejemplaresPrestados, @RequestParam("autor") Integer autorId, @RequestParam("editorial") Integer editorialId){
+        servicioLibro.modificarAutor(id, isbn, titulo, anio, ejemplares, ejemplaresPrestados, autorId, editorialId);
+        return new RedirectView("/libros/todos");
+
     }
 
 }

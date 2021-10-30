@@ -62,7 +62,7 @@
                 <td class="col-md-3 px-md-2 text-center text-uppercase" th:text="${libro.editorial.nombre}"></td>
 
                 <td class="col-md-3 px-md-2 d-flex justify-content-around w-100">
-                    <a class="btn btn-secondary btn-sm m-1" th:href="@{/libros/editar/}">Editar</a>
+                    <a class="btn btn-secondary btn-sm m-1" th:href="@{/libros/editar/__${libro.id}__}">Editar</a>
                     <form th:if="${libro.alta}" method="post" th:action="@{/libros/eliminar/__${libro.id}__}">
                         <button class="btn btn-danger btn-sm m-1" type="submit" th:text="Eliminar"></button>
                     </form>

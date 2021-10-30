@@ -1,5 +1,7 @@
 package edu.egg.libreriaspringboot.servicios;
 
+import edu.egg.libreriaspringboot.entidades.Autor;
+import edu.egg.libreriaspringboot.entidades.Editorial;
 import edu.egg.libreriaspringboot.entidades.Libro;
 import edu.egg.libreriaspringboot.repositorios.AutorRepositorio;
 import edu.egg.libreriaspringboot.repositorios.EditorialRepositorio;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LibroService {
@@ -17,10 +20,10 @@ public class LibroService {
     private LibroRepositorio libroRepositorio;
 
     @Autowired
-    private AutorRepositorio autorRepositorio;
+    private AutorService autorServicio;
 
     @Autowired
-    private EditorialRepositorio editorialRepositorio;
+    private EditorialService editorialServicio;
 
     @Transactional(readOnly = true)
     public List<Libro> obtenerLibros(){
@@ -37,8 +40,8 @@ public class LibroService {
         libro.setEjemplares(ejemplares);
         libro.setEjemplaresPrestados(ejemplaresPrestados);
         libro.setEjemplaresRestantes(ejemplares - ejemplaresPrestados);
-        libro.setAutor(autorRepositorio.findById(idAutor).orElse(null));
-        libro.setEditorial(editorialRepositorio.findById(idEditorial).orElse(null));
+        libro.setAutor(autorServicio.buscarPorId(idAutor));
+        libro.setEditorial(editorialServicio.buscarPorId(idEditorial));
         libroRepositorio.save(libro);
     }
 
@@ -57,4 +60,22 @@ public class LibroService {
         return libroRepositorio.buscarPorTituloEnBD(keyword);
     }
 
+    @Transactional(readOnly = true)
+    public Libro buscarPorId(Integer id) {
+        Optional<Libro> libroOptional = libroRepositorio.findById(id);
+        return libroOptional.orElse(null);
+    }
+
+    @Transactional
+    public void modificarAutor(Integer id, Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer autorId, Integer editorialId) {
+    Autor autor = autorServicio.buscarPorId(autorId);
+    Editorial editorial = editorialServicio.buscarPorId(editorialId);
+    libroRepositorio.modificarLibro(id, isbn, titulo, anio, ejemplares, ejemplaresPrestados, autor, editorial);
+
+    }
+
 }
+
+
+
+

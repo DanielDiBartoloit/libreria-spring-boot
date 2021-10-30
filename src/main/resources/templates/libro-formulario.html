@@ -21,10 +21,11 @@
 
 
 <!--Form-->
-<div class="container mt-4 main">
-    <h1>Formulario nuevo <span th:text="${title}"></span></h1>
+<div class="container mt-4 main mb-5">
+    <h1 th:text="${title}"></h1>
     <hr class="mb-2"/>
-    <form method="post" th:action="@{/libros/guardar}" th:object="${libro}">
+    <form method="post" th:action="@{/libros/__${action}__}" th:object="${libro}">
+        <input th:field="*{id}" type="hidden"/>
 
         <div class="m-1"><label for="isbnLibro"></label></div>
         <input type="text" class="form-control" id="isbnLibro" th:field="*{isbn}" placeholder="ISBN" required>
@@ -57,7 +58,7 @@
         <div> <a class="btn btn-success btn-sm active mb-2 mt-1" th:href="@{/editoriales/crear}" role="button">+ Editorial</a></div>
 
 
-        <button type="submit" class="btn btn-dark mt-3 mb-3" th:text="${action}"></button>
+        <button type="submit" class="btn btn-success mt-3" th:text="${action == 'guardar'} ? 'Crear Libro' : 'Guardar cambios'"></button>
     </form>
 </div>
 
