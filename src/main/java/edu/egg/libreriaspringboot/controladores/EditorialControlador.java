@@ -45,7 +45,7 @@ public class EditorialControlador {
     }
 
     @PostMapping("/habilitar/{id}")
-    public RedirectView habilitarAutor(@PathVariable Integer id){
+    public RedirectView habilitarEditorial(@PathVariable Integer id){
         servicioEditorial.habilitarEditorial(id);
         return new RedirectView("/editoriales/todos");
     }

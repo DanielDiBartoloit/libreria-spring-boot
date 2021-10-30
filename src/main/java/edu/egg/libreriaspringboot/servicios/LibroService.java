@@ -42,4 +42,14 @@ public class LibroService {
         libroRepositorio.save(libro);
     }
 
+    @Transactional
+    public void eliminarLibro(Integer id){
+        libroRepositorio.deleteById(id);
+    }
+
+    @Transactional
+    public void habilitarLibro(Integer id) {
+        libroRepositorio.habilitarLibro(id);
+    }
+
 }

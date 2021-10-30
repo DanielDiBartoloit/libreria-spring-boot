@@ -32,8 +32,8 @@ public class AutorService {
     @Transactional
     public void eliminarAutor(Integer id){
         repositorio.deleteById(id);
-
     }
+
     @Transactional(readOnly = true)
     public List<Autor> buscarPorNombre(String keyword) {
         return repositorio.buscarPornombreEnBD(keyword);

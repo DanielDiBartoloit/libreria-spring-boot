@@ -52,7 +52,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="libro : ${libros}"> <!--th:if="${libro.alta}"-->
+            <tr th:each="libro : ${libros}" th:class=" ${libro.alta ? 'text-dark' : 'text-muted'}">
                 <td class="col-md-3 px-md-2 text-center" th:text="${libro.isbn}"></td>
                 <td class="col-md-3 px-md-2 text-center text-uppercase" th:text="${libro.titulo}"></td>
                 <td class="col-md-3 px-md-2 text-center" th:text="${libro.ejemplares}"></td>
@@ -62,9 +62,13 @@
                 <td class="col-md-3 px-md-2 text-center text-uppercase" th:text="${libro.editorial.nombre}"></td>
 
                 <td class="col-md-3 px-md-2 d-flex justify-content-around w-100">
-                    <a class="btn btn-secondary btn-sm m-1" th:href="@{/autores/editar/}">Editar</a>
-                    <form method="post" th:action="@{/autores/eliminar/__${libro.id}__}">
-                        <button class="btn btn-danger btn-sm m-1" type="submit">Eliminar</button>
+                    <a class="btn btn-secondary btn-sm m-1" th:href="@{/libros/editar/}">Editar</a>
+                    <form th:if="${libro.alta}" method="post" th:action="@{/libros/eliminar/__${libro.id}__}">
+                        <button class="btn btn-danger btn-sm m-1" type="submit" th:text="Eliminar"></button>
+                    </form>
+                    <form th:unless="${libro.alta}" method="post"
+                          th:action="@{/libros/habilitar/__${libro.id}__}">
+                        <button class="btn btn-primary btn-sm m-1" type="submit" th:text="Habilitar"></button>
                     </form>
                 </td>
             </tr>
