@@ -6,7 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @Controller
 @RequestMapping("autores")
@@ -16,8 +21,14 @@ public class AutorControlador {
     private AutorService servicioAutor;
 
     @GetMapping("todos")
-    public ModelAndView mostrarAutores(){
+    public ModelAndView mostrarAutores(HttpServletRequest request){
         ModelAndView mav = new ModelAndView("autor");
+        Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+
+        if (flashMap != null){
+            mav.addObject("exitoAutor", flashMap.get("exito-nombre-autor"));
+        }
+
         mav.addObject("autores", servicioAutor.obtenerAutores());
         return mav;
     }
@@ -39,8 +50,9 @@ public class AutorControlador {
     }
 
     @PostMapping("/guardar")
-    public RedirectView guardarAutor(@RequestParam String nombre){
+    public RedirectView guardarAutor(@RequestParam String nombre, RedirectAttributes attributes){
         servicioAutor.crear(nombre);
+        attributes.addFlashAttribute("exito-nombre-autor", "El autor a sido creado exitosamente");
         return new RedirectView("/autores/todos");
     }
 
@@ -74,12 +86,12 @@ public class AutorControlador {
     }
 
 
-
-
-
-
-
 }
+
+
+
+
+
 
 
 
