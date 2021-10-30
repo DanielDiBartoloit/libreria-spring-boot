@@ -64,4 +64,11 @@ public class LibroControlador {
         return new RedirectView("/libros/todos");
     }
 
+    @GetMapping("/buscar")
+    public ModelAndView buscarLibrosPorNombre(@RequestParam String keyword){
+        ModelAndView mav = new ModelAndView("libros");
+        mav.addObject("libros", servicioLibro.buscarPorNombre(keyword));
+        return mav;
+    }
+
 }

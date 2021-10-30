@@ -52,4 +52,9 @@ public class LibroService {
         libroRepositorio.habilitarLibro(id);
     }
 
+    @Transactional(readOnly = true)
+    public List<Libro> buscarPorNombre(String keyword) {
+        return libroRepositorio.buscarPorTituloEnBD(keyword);
+    }
+
 }
