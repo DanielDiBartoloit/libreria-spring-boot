@@ -22,6 +22,7 @@
     <h1>Listado de autores</h1>
     <hr class="mb-4"/>
     <div class="alert alert-success" th:if="${exitoAutor != null}" th:text="${exitoAutor}"></div>
+    <div class="alert alert-success" th:if="${exitoModificacionAutor != null}" th:text="${exitoModificacionAutor}"></div>
     <a class="btn btn-success active mb-2" th:href="@{/autores/crear}" role="button">Crear Autor</a>
     <div class="input-group mb-3">
 

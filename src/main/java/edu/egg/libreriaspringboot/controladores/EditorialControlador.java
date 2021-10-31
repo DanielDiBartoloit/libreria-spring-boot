@@ -6,7 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @Controller
 @RequestMapping("editoriales")
@@ -16,8 +21,15 @@ public class EditorialControlador {
     private EditorialService servicioEditorial;
 
     @GetMapping("/todos")
-    private ModelAndView mostrarEditoriales(){
+    private ModelAndView mostrarEditoriales(HttpServletRequest request){
         ModelAndView mav = new ModelAndView("editorial");
+        Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+
+        if (flashMap != null){
+            mav.addObject("exitoEditorialCreada", flashMap.get("exito-editorial-creada"));
+            mav.addObject("exitoEditorialModificada", flashMap.get("exito-editorial-modificada"));
+        }
+
         mav.addObject("editoriales", servicioEditorial.obtenerEditoriales());
         return mav;
     }
@@ -33,8 +45,9 @@ public class EditorialControlador {
     }
 
     @PostMapping("/guardar")
-    public RedirectView guardarEditorial(@RequestParam String nombre){
+    public RedirectView guardarEditorial(@RequestParam String nombre, RedirectAttributes attributes){
         servicioEditorial.crear(nombre);
+        attributes.addFlashAttribute("exito-editorial-creada", "Editorial creada exitosamente");
         return new RedirectView("/editoriales/todos");
     }
 
@@ -68,8 +81,9 @@ public class EditorialControlador {
     }
 
     @PostMapping("/modificar")
-    public RedirectView modificarEditorial(@RequestParam Integer id, @RequestParam String nombre){
+    public RedirectView modificarEditorial(@RequestParam Integer id, @RequestParam String nombre, RedirectAttributes attributes){
         servicioEditorial.modificarEditorial(id, nombre);
+        attributes.addFlashAttribute("exito-editorial-modificada", "Editorial modificada exitosamente");
         return new RedirectView("/editoriales/todos");
 
     }

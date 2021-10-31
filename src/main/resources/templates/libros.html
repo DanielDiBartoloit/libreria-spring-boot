@@ -21,6 +21,8 @@
 <div class="container mt-4">
     <h1>Listado de libros</h1>
     <hr class="mb-4"/>
+    <div class="alert alert-success" th:if="${exitoLibroCreado != null}" th:text="${exitoLibroCreado}"></div>
+    <div class="alert alert-success" th:if="${exitoLibroModificado != null}" th:text="${exitoLibroModificado}"></div>
     <a class="btn btn-success active mb-2" th:href="@{/libros/crear}" role="button">Crear Libro</a>
     <div class="input-group mb-3">
 

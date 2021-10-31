@@ -9,10 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
+import java.util.Map;
 
 
 @Controller
@@ -27,12 +30,20 @@ public class LibroControlador {
     private EditorialService servicioEditorial;
 
     @GetMapping("todos")
-    public ModelAndView mostrarLibros(){
+    public ModelAndView mostrarLibros(HttpServletRequest request){
         ModelAndView mav = new ModelAndView("libros");
+        Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+
+        if (flashMap != null){
+            mav.addObject("exitoLibroCreado", flashMap.get("exito-libro-creado"));
+            mav.addObject("exitoLibroModificado", flashMap.get("exito-libro-modificado"));
+        }
+
         List<Libro> libros = servicioLibro.obtenerLibros();
         mav.addObject("libros", libros);
         return mav;
     }
+
 
     @GetMapping("/crear")
     public ModelAndView crearLibro(){
@@ -47,7 +58,9 @@ public class LibroControlador {
     }
 
     @PostMapping("/guardar")
-    public RedirectView guardarLibro(@RequestParam Long isbn, @RequestParam String titulo, @RequestParam Integer anio, @RequestParam Integer ejemplares, @RequestParam Integer ejemplaresPrestados, @RequestParam("autor") Integer idAutor, @RequestParam("editorial") Integer idEditorial){
+    public RedirectView guardarLibro(@RequestParam Long isbn, @RequestParam String titulo, @RequestParam Integer anio, @RequestParam Integer ejemplares, @RequestParam Integer ejemplaresPrestados, @RequestParam("autor") Integer idAutor, @RequestParam("editorial") Integer idEditorial, RedirectAttributes attributes){
+        attributes.addFlashAttribute("exito-libro-creado", "Libro creado exitosamente");
+
         servicioLibro.crear(isbn, titulo, anio, ejemplares, ejemplaresPrestados, idAutor, idEditorial);
         return new RedirectView("/libros/todos");
     }
@@ -80,14 +93,16 @@ public class LibroControlador {
         mav.addObject("title", "Editar Libro");
         mav.addObject("action", "modificar");
         return mav;
-
     }
 
     @PostMapping("/modificar")
-    public RedirectView modificarLibro(@RequestParam Integer id, @RequestParam Long isbn, @RequestParam String titulo, @RequestParam Integer anio, @RequestParam Integer ejemplares, @RequestParam Integer ejemplaresPrestados, @RequestParam("autor") Integer autorId, @RequestParam("editorial") Integer editorialId){
+    public RedirectView modificarLibro(@RequestParam Integer id, @RequestParam Long isbn, @RequestParam String titulo, @RequestParam Integer anio, @RequestParam Integer ejemplares, @RequestParam Integer ejemplaresPrestados, @RequestParam("autor") Integer autorId, @RequestParam("editorial") Integer editorialId, RedirectAttributes attributes){
+        attributes.addFlashAttribute("exito-libro-modificado", "Libro modificado exitosamente");
         servicioLibro.modificarAutor(id, isbn, titulo, anio, ejemplares, ejemplaresPrestados, autorId, editorialId);
         return new RedirectView("/libros/todos");
-
     }
 
 }
+
+
+

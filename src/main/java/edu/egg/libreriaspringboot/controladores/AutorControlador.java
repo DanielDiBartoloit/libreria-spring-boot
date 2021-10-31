@@ -27,6 +27,7 @@ public class AutorControlador {
 
         if (flashMap != null){
             mav.addObject("exitoAutor", flashMap.get("exito-nombre-autor"));
+            mav.addObject("exitoModificacionAutor", flashMap.get("exito-autor-modificado"));
         }
 
         mav.addObject("autores", servicioAutor.obtenerAutores());
@@ -52,7 +53,7 @@ public class AutorControlador {
     @PostMapping("/guardar")
     public RedirectView guardarAutor(@RequestParam String nombre, RedirectAttributes attributes){
         servicioAutor.crear(nombre);
-        attributes.addFlashAttribute("exito-nombre-autor", "El autor a sido creado exitosamente");
+        attributes.addFlashAttribute("exito-nombre-autor", "Autor creado exitosamente");
         return new RedirectView("/autores/todos");
     }
 
@@ -79,8 +80,9 @@ public class AutorControlador {
     }
 
     @PostMapping("/modificar")
-    public RedirectView modificarAutor(@RequestParam Integer id, @RequestParam String nombre){
+    public RedirectView modificarAutor(@RequestParam Integer id, @RequestParam String nombre, RedirectAttributes attributes){
         servicioAutor.modificarAutor(id, nombre);
+        attributes.addFlashAttribute("exito-autor-modificado", "Autor modificado exitosamente");
         return new RedirectView("/autores/todos");
 
     }

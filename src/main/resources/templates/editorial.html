@@ -21,6 +21,8 @@
 <div class="container mt-4 main">
     <h1>Listado de editoriales</h1>
     <hr class="mb-4"/>
+    <div class="alert alert-success" th:if="${exitoEditorialCreada != null}" th:text="${exitoEditorialCreada}"></div>
+    <div class="alert alert-success" th:if="${exitoEditorialModificada != null}" th:text="${exitoEditorialModificada}"></div>
     <a class="btn btn-success active mb-2" th:href="@{/editoriales/crear}" role="button">Crear Editorial</a>
     <div class="input-group mb-3">
 
