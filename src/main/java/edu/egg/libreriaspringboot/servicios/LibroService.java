@@ -4,8 +4,6 @@ import edu.egg.libreriaspringboot.entidades.Autor;
 import edu.egg.libreriaspringboot.entidades.Editorial;
 import edu.egg.libreriaspringboot.entidades.Libro;
 import edu.egg.libreriaspringboot.excepciones.ExcepcionService;
-import edu.egg.libreriaspringboot.repositorios.AutorRepositorio;
-import edu.egg.libreriaspringboot.repositorios.EditorialRepositorio;
 import edu.egg.libreriaspringboot.repositorios.LibroRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class LibroService {
@@ -33,14 +32,14 @@ public class LibroService {
 
     @Transactional
     public void crear(Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer idAutor, Integer idEditorial) throws ExcepcionService {
-        Libro libro = new Libro();
-        libro.setAlta(true);
 
         Optional<Libro> isbnLibro = libroRepositorio.buscarLibroPorIsbn(isbn);
         if (isbnLibro.isPresent()){
         throw new ExcepcionService("El isbn ya pertenece a otro libro");
         }
 
+        Libro libro = new Libro();
+        libro.setAlta(true);
         libro.setIsbn(isbn);
         libro.setTitulo(titulo);
         libro.setAnio(anio);
@@ -50,7 +49,6 @@ public class LibroService {
         libro.setAutor(autorServicio.buscarPorId(idAutor));
         libro.setEditorial(editorialServicio.buscarPorId(idEditorial));
         libroRepositorio.save(libro);
-
     }
 
     @Transactional
@@ -81,6 +79,8 @@ public class LibroService {
     libroRepositorio.modificarLibro(id, isbn, titulo, anio, ejemplares, ejemplaresPrestados, autor, editorial);
 
     }
+
+
 
 }
 

@@ -1,6 +1,7 @@
 package edu.egg.libreriaspringboot.repositorios;
 
 
+
 import edu.egg.libreriaspringboot.entidades.Editorial;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EditorialRepositorio extends JpaRepository<Editorial,Integer> {
@@ -23,4 +25,8 @@ public interface EditorialRepositorio extends JpaRepository<Editorial,Integer> {
     @Modifying
     @Query("UPDATE Autor a SET a.alta = true WHERE a.id = :id")
     void habilitarEditorial(@Param("id") Integer id);
+
+    @Query(value = "SELECT e FROM Editorial e WHERE e.nombre = :nombre")
+    Optional<Editorial> buscarEditorialPorNombre(@Param("nombre") String nombre);
+
 }

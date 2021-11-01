@@ -2,6 +2,7 @@ package edu.egg.libreriaspringboot.servicios;
 
 import edu.egg.libreriaspringboot.entidades.Autor;
 import edu.egg.libreriaspringboot.entidades.Editorial;
+import edu.egg.libreriaspringboot.excepciones.ExcepcionService;
 import edu.egg.libreriaspringboot.repositorios.EditorialRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,13 @@ public class EditorialService {
     }
 
     @Transactional
-    public void crear(String nombre) {
+    public void crear(String nombre) throws ExcepcionService {
+
+        Optional <Editorial> nombreEditorial = repositorio.buscarEditorialPorNombre(nombre);
+        if (nombreEditorial.isPresent()){
+            throw new ExcepcionService("La editorial ya se encuentra registrada");
+        }
+
         Editorial editorial = new Editorial();
         editorial.setNombre(nombre);
         editorial.setAlta(true);

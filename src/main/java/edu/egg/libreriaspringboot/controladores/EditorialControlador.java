@@ -28,6 +28,7 @@ public class EditorialControlador {
         if (flashMap != null){
             mav.addObject("exitoEditorialCreada", flashMap.get("exito-editorial-creada"));
             mav.addObject("exitoEditorialModificada", flashMap.get("exito-editorial-modificada"));
+            mav.addObject("errorEditorialCreada", flashMap.get("error-editorial-creada"));
         }
 
         mav.addObject("editoriales", servicioEditorial.obtenerEditoriales());
@@ -46,9 +47,17 @@ public class EditorialControlador {
 
     @PostMapping("/guardar")
     public RedirectView guardarEditorial(@RequestParam String nombre, RedirectAttributes attributes){
-        servicioEditorial.crear(nombre);
-        attributes.addFlashAttribute("exito-editorial-creada", "Editorial creada exitosamente");
+
+        try{
+            servicioEditorial.crear(nombre);
+            attributes.addFlashAttribute("exito-editorial-creada", "Editorial creada exitosamente");
+
+        }catch (Exception e){
+            attributes.addFlashAttribute("error-editorial-creada", e.getMessage());
+        }
+
         return new RedirectView("/editoriales/todos");
+
     }
 
     @PostMapping("/eliminar/{id}")
