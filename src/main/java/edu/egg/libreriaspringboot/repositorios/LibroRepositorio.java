@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface LibroRepositorio extends JpaRepository<Libro, Integer> {
@@ -24,4 +25,7 @@ public interface LibroRepositorio extends JpaRepository<Libro, Integer> {
     @Modifying
     @Query("UPDATE Libro l SET l.isbn = :isbn, l.titulo = :titulo, l.anio = :anio, l.ejemplares = :ejemplares, l.ejemplaresPrestados = :ejemplaresPrestados, l.autor = :autor, l.editorial = :editorial WHERE l.id = :id")
     void modificarLibro(@Param("id") Integer id, @Param("isbn") Long isbn,@Param("titulo") String titulo, @Param("anio") Integer anio, @Param("ejemplares") Integer ejemplares, @Param("ejemplaresPrestados") Integer ejemplaresPrestados, @Param("autor") Autor autor, @Param("editorial") Editorial editorial);
+
+    @Query(value="SELECT l FROM Libro l WHERE l.isbn = :isbn")
+    Optional<Libro> buscarLibroPorIsbn(@Param("isbn") Long isbn);
 }

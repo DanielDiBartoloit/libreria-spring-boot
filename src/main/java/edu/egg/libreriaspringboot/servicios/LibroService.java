@@ -3,6 +3,7 @@ package edu.egg.libreriaspringboot.servicios;
 import edu.egg.libreriaspringboot.entidades.Autor;
 import edu.egg.libreriaspringboot.entidades.Editorial;
 import edu.egg.libreriaspringboot.entidades.Libro;
+import edu.egg.libreriaspringboot.excepciones.ExcepcionService;
 import edu.egg.libreriaspringboot.repositorios.AutorRepositorio;
 import edu.egg.libreriaspringboot.repositorios.EditorialRepositorio;
 import edu.egg.libreriaspringboot.repositorios.LibroRepositorio;
@@ -31,9 +32,15 @@ public class LibroService {
     }
 
     @Transactional
-    public void crear(Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer idAutor, Integer idEditorial) {
+    public void crear(Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer idAutor, Integer idEditorial) throws ExcepcionService {
         Libro libro = new Libro();
         libro.setAlta(true);
+
+        Optional<Libro> isbnLibro = libroRepositorio.buscarLibroPorIsbn(isbn);
+        if (isbnLibro.isPresent()){
+        throw new ExcepcionService("El isbn ya pertenece a otro libro");
+        }
+
         libro.setIsbn(isbn);
         libro.setTitulo(titulo);
         libro.setAnio(anio);
@@ -43,6 +50,7 @@ public class LibroService {
         libro.setAutor(autorServicio.buscarPorId(idAutor));
         libro.setEditorial(editorialServicio.buscarPorId(idEditorial));
         libroRepositorio.save(libro);
+
     }
 
     @Transactional

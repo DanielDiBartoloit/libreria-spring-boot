@@ -37,6 +37,7 @@ public class LibroControlador {
         if (flashMap != null){
             mav.addObject("exitoLibroCreado", flashMap.get("exito-libro-creado"));
             mav.addObject("exitoLibroModificado", flashMap.get("exito-libro-modificado"));
+            mav.addObject("errorLibroCreado", flashMap.get("error-libro-isbn-repetido"));
         }
 
         List<Libro> libros = servicioLibro.obtenerLibros();
@@ -59,11 +60,23 @@ public class LibroControlador {
 
     @PostMapping("/guardar")
     public RedirectView guardarLibro(@RequestParam Long isbn, @RequestParam String titulo, @RequestParam Integer anio, @RequestParam Integer ejemplares, @RequestParam Integer ejemplaresPrestados, @RequestParam("autor") Integer idAutor, @RequestParam("editorial") Integer idEditorial, RedirectAttributes attributes){
-        attributes.addFlashAttribute("exito-libro-creado", "Libro creado exitosamente");
 
-        servicioLibro.crear(isbn, titulo, anio, ejemplares, ejemplaresPrestados, idAutor, idEditorial);
+        try{
+            servicioLibro.crear(isbn, titulo, anio, ejemplares, ejemplaresPrestados, idAutor, idEditorial);
+            attributes.addFlashAttribute("exito-libro-creado", "Libro creado exitosamente");
+
+        } catch (Exception e){
+            attributes.addFlashAttribute("error-libro-isbn-repetido", e.getMessage());
+        }
+
         return new RedirectView("/libros/todos");
     }
+
+
+
+
+
+
 
     @PostMapping("/eliminar/{id}")
     public RedirectView eliminarLibro(@PathVariable Integer id){
