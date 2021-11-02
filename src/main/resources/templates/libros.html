@@ -65,11 +65,11 @@
                 <td class="col-md-3 px-md-2 text-center text-uppercase" th:text="${libro.editorial.nombre}"></td>
 
                 <td class="col-md-3 px-md-2 d-flex justify-content-around align-items-center w-100">
-                    <a class="d-flex btn btn-secondary btn-sm m-1" th:href="@{/libros/editar/__${libro.id}__}"> <i class="fas fa-edit m-1"></i>Editar</a>
+                    <a class="d-flex btn btn-secondary btn-sm m-2 align-items-center" th:href="@{/libros/editar/__${libro.id}__}"> <i class="fas fa-edit me-1"></i>Editar</a>
                     <form method="post"
                           th:action="${libro.alta} ? @{/libros/eliminar/__${libro.id}__} : @{/libros/habilitar/__${libro.id}__}">
                         <button th:class="${libro.alta} ? 'btn btn-danger btn-sm' : 'btn btn-primary btn-sm'"
-                                type="submit" th:text="${libro.alta} ? 'Eliminar' : 'Habilitar'"></button>
+                                type="submit"> <div class="d-flex justify-content-around align-items-center"> <i th:class="${libro.alta} ? 'fas fa-trash me-2' : 'fas fa-trash-restore me-1'"></i> <span th:text="${libro.alta} ? 'Eliminar' : 'Habilitar'"></span></div></button>
                     </form>
                 </td>
             </tr>
