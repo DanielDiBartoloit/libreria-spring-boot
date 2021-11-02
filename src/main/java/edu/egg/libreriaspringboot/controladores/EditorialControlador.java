@@ -91,11 +91,17 @@ public class EditorialControlador {
 
     @PostMapping("/modificar")
     public RedirectView modificarEditorial(@RequestParam Integer id, @RequestParam String nombre, RedirectAttributes attributes){
-        servicioEditorial.modificarEditorial(id, nombre);
-        attributes.addFlashAttribute("exito-editorial-modificada", "Editorial modificada exitosamente");
+        try{
+            servicioEditorial.modificarEditorial(id, nombre);
+            attributes.addFlashAttribute("exito-editorial-modificada", "Editorial modificada exitosamente");
+        }catch (Exception e){
+            attributes.addFlashAttribute("error-editorial-creada", e.getMessage());
+        }
+
         return new RedirectView("/editoriales/todos");
-
     }
-
-
 }
+
+
+
+

@@ -56,14 +56,12 @@
                 <td class="col-md-3 px-md-2 text-center text-uppercase" th:text="${editorial.nombre}"></td>
                 <td class="col-md-3 px-md-2 text-center" th:text="${editorial.alta}"></td>
 
-                <td class="col-md-3 px-md-2 d-flex justify-content-around  align-items-center w-100">
-                    <a class="btn btn-secondary btn-sm m-1" th:href="@{/editoriales/editar/__${editorial.id}__}">Editar</a>
-                    <form th:if="${editorial.alta}" method="post" th:action="@{/editoriales/eliminar/__${editorial.id}__}">
-                        <button class="btn btn-danger btn-sm m-1" type="submit">Eliminar</button>
-                    </form>
-                    <form th:unless="${editorial.alta}" method="post"
-                          th:action="@{/editoriales/habilitar/__${editorial.id}__}">
-                        <button class="btn btn-primary btn-sm m-1" type="submit">Habilitar</button>
+                <td class="col-md-3 px-md-2 d-flex justify-content-around align-items-center w-100">
+                    <a class="d-flex btn btn-secondary btn-sm m-1" th:href="@{/editoriales/editar/__${editorial.id}__}"> <i class="fas fa-edit m-1"></i>Editar</a>
+                    <form method="post"
+                          th:action="${editorial.alta} ? @{/editoriales/eliminar/__${editorial.id}__} : @{/editoriales/habilitar/__${editorial.id}__}">
+                        <button th:class="${editorial.alta} ? 'btn btn-danger btn-sm' : 'btn btn-primary btn-sm'"
+                                type="submit" th:text="${editorial.alta} ? 'Eliminar' : 'Habilitar'"></button>
                     </form>
                 </td>
             </tr>
