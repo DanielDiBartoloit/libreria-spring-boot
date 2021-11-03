@@ -1,10 +1,13 @@
 package edu.egg.libreriaspringboot.servicios;
 
 import edu.egg.libreriaspringboot.entidades.Autor;
+import edu.egg.libreriaspringboot.excepciones.ExcepcionService;
 import edu.egg.libreriaspringboot.repositorios.AutorRepositorio;
+import edu.egg.libreriaspringboot.utilities.Validacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.util.List;
@@ -22,7 +25,9 @@ public class AutorService {
     }
 
     @Transactional
-    public void crear(String nombre){
+    public void crear(String nombre) throws ExcepcionService {
+        Validacion.validarEspacioVacio(nombre);
+        Validacion.validarNombreSinNumeros(nombre);
         Autor autor = new Autor();
         autor.setNombre(nombre);
         autor.setAlta(true);

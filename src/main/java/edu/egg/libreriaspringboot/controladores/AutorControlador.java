@@ -28,6 +28,7 @@ public class AutorControlador {
         if (flashMap != null){
             mav.addObject("exitoAutor", flashMap.get("exito-nombre-autor"));
             mav.addObject("exitoModificacionAutor", flashMap.get("exito-autor-modificado"));
+            mav.addObject("erroAutor", flashMap.get("error-nombre-autor"));
         }
 
         mav.addObject("autores", servicioAutor.obtenerAutores());
@@ -52,8 +53,16 @@ public class AutorControlador {
 
     @PostMapping("/guardar")
     public RedirectView guardarAutor(@RequestParam String nombre, RedirectAttributes attributes){
-        servicioAutor.crear(nombre);
-        attributes.addFlashAttribute("exito-nombre-autor", "Autor creado exitosamente");
+        try{
+            servicioAutor.crear(nombre);
+            attributes.addFlashAttribute("exito-nombre-autor", "Autor creado exitosamente");
+        }catch(Exception e){
+            attributes.addFlashAttribute("error-nombre-autor", e.getMessage());
+        }
+
+
+
+
         return new RedirectView("/autores/todos");
     }
 

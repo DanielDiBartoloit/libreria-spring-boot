@@ -37,7 +37,7 @@ public class LibroControlador {
         if (flashMap != null){
             mav.addObject("exitoLibroCreado", flashMap.get("exito-libro-creado"));
             mav.addObject("exitoLibroModificado", flashMap.get("exito-libro-modificado"));
-            mav.addObject("errorLibroCreado", flashMap.get("error-libro-isbn-repetido"));
+            mav.addObject("errorLibroCreado", flashMap.get("error-libro-creado"));
         }
 
         List<Libro> libros = servicioLibro.obtenerLibros();
@@ -66,7 +66,7 @@ public class LibroControlador {
             attributes.addFlashAttribute("exito-libro-creado", "Libro creado exitosamente");
 
         } catch (Exception e){
-            attributes.addFlashAttribute("error-libro-isbn-repetido", e.getMessage());
+            attributes.addFlashAttribute("error-libro-creado", e.getMessage());
         }
 
         return new RedirectView("/libros/todos");

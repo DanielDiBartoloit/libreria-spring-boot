@@ -5,6 +5,7 @@ import edu.egg.libreriaspringboot.entidades.Editorial;
 import edu.egg.libreriaspringboot.entidades.Libro;
 import edu.egg.libreriaspringboot.excepciones.ExcepcionService;
 import edu.egg.libreriaspringboot.repositorios.LibroRepositorio;
+import edu.egg.libreriaspringboot.utilities.Validacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +38,8 @@ public class LibroService {
         if (isbnLibro.isPresent()){
         throw new ExcepcionService("El isbn ya pertenece a otro libro");
         }
+
+        Validacion.validarTamanioIsbn(isbn);
 
         Libro libro = new Libro();
         libro.setAlta(true);
