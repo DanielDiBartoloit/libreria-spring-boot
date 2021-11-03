@@ -59,7 +59,7 @@
                     <td class="col-md-3 px-md-2 d-flex justify-content-around align-items-center w-100">
                         <a class="d-flex btn btn-secondary btn-sm m-2 align-items-center" th:href="@{/editoriales/editar/__${editorial.id}__}"> <i class="fas fa-edit me-1"></i>Editar</a>
                         <form method="post"
-                              th:action="${editorial.alta} ? @{/editoriales/eliminar/__${autor.id}__} : @{/editoriales/habilitar/__${editorial.id}__}">
+                              th:action="${editorial.alta} ? @{/editoriales/eliminar/__${editorial.id}__} : @{/editoriales/habilitar/__${editorial.id}__}">
                             <button th:class="${editorial.alta} ? 'btn btn-danger btn-sm' : 'btn btn-primary btn-sm'"
                                     type="submit"> <div class="d-flex justify-content-around align-items-center"> <i th:class="${editorial.alta} ? 'fas fa-trash me-2' : 'fas fa-trash-restore me-1'"></i> <span th:text="${editorial.alta} ? 'Eliminar' : 'Habilitar'"></span></div></button>
                         </form>
