@@ -23,6 +23,7 @@
 <div class="container mt-4 main mb-5">
     <h1 th:text="${title}"></h1>
     <hr class="mb-4"/>
+    <div class="alert alert-danger" th:if="${errorAutor != null}" th:text="${errorAutor}"></div>
     <form  class="form-floating" method="post" th:action="@{/autores/__${action}__}" th:object="${autor}">
         <input th:field="*{id}" type="hidden"/>
         <div class="form-group">

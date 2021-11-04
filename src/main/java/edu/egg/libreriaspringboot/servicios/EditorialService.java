@@ -1,6 +1,6 @@
 package edu.egg.libreriaspringboot.servicios;
 
-import edu.egg.libreriaspringboot.entidades.Autor;
+
 import edu.egg.libreriaspringboot.entidades.Editorial;
 import edu.egg.libreriaspringboot.excepciones.ExcepcionService;
 import edu.egg.libreriaspringboot.repositorios.EditorialRepositorio;
@@ -26,8 +26,6 @@ public class EditorialService {
     @Transactional
     public void crear(String nombre) throws ExcepcionService {
 
-
-
         validarEditorial(nombre);
 
         Editorial editorial = new Editorial();
@@ -35,7 +33,6 @@ public class EditorialService {
         editorial.setAlta(true);
         repositorio.save(editorial);
     }
-
 
     @Transactional
     public void validarEditorial(String nombre) throws ExcepcionService {
@@ -62,9 +59,7 @@ public class EditorialService {
     public Editorial buscarPorId(Integer id) {
         Optional<Editorial> editorialOptional = repositorio.findById(id);
         return editorialOptional.orElse(null);
-
     }
-
 
     @Transactional
     public void modificarEditorial(Integer id, String nombre) throws ExcepcionService {
@@ -77,10 +72,15 @@ public class EditorialService {
     public void habilitarEditorial(Integer id) {
         repositorio.habilitarEditorial(id);
     }
-
-
-
 }
+
+
+
+
+
+
+
+
 
 
 

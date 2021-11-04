@@ -27,8 +27,8 @@ public class AutorControlador {
 
         if (flashMap != null){
             mav.addObject("exitoAutor", flashMap.get("exito-nombre-autor"));
-            mav.addObject("exitoModificacionAutor", flashMap.get("exito-autor-modificado"));
-            mav.addObject("errorAutor", flashMap.get("error-nombre-autor"));
+
+
         }
 
         mav.addObject("autores", servicioAutor.obtenerAutores());
@@ -36,13 +36,20 @@ public class AutorControlador {
     }
 
     @GetMapping("/crear")
-    public ModelAndView crearAutor() {
+    public ModelAndView crearAutor(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("autor-formulario");
+        Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+
+        if (flashMap != null){
+            mav.addObject("errorAutor", flashMap.get("error-nombre-autor"));
+        }
+
         mav.addObject("autor", new Autor());
         mav.addObject("title", "Formulario nuevo Autor");
         mav.addObject("action", "guardar");
         return mav;
     }
+
 
     @GetMapping("/buscar")
     public ModelAndView buscarAutores(@RequestParam String keyword){
@@ -53,18 +60,23 @@ public class AutorControlador {
 
     @PostMapping("/guardar")
     public RedirectView guardarAutor(@RequestParam String nombre, RedirectAttributes attributes){
+
+        RedirectView rv = new RedirectView("/autores/todos");
+
         try{
             servicioAutor.crear(nombre);
             attributes.addFlashAttribute("exito-nombre-autor", "Autor creado exitosamente");
         }catch(Exception e){
             attributes.addFlashAttribute("error-nombre-autor", e.getMessage());
+            attributes.addFlashAttribute("nombre", nombre);
+            rv.setUrl("/autores/crear");
         }
-
-
-
-
-        return new RedirectView("/autores/todos");
+        return rv;
     }
+
+
+
+
 
     @PostMapping("/eliminar/{id}")
     public RedirectView eliminarAutor(@PathVariable Integer id){
@@ -91,7 +103,7 @@ public class AutorControlador {
     @PostMapping("/modificar")
     public RedirectView modificarAutor(@RequestParam Integer id, @RequestParam String nombre, RedirectAttributes attributes){
         servicioAutor.modificarAutor(id, nombre);
-        attributes.addFlashAttribute("exito-autor-modificado", "Autor modificado exitosamente");
+        attributes.addFlashAttribute("exito-nombre-autor", "Autor modificado exitosamente");
         return new RedirectView("/autores/todos");
 
     }

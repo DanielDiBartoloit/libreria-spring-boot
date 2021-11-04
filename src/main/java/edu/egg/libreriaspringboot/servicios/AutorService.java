@@ -1,6 +1,7 @@
 package edu.egg.libreriaspringboot.servicios;
 
 import edu.egg.libreriaspringboot.entidades.Autor;
+
 import edu.egg.libreriaspringboot.excepciones.ExcepcionService;
 import edu.egg.libreriaspringboot.repositorios.AutorRepositorio;
 import edu.egg.libreriaspringboot.utilities.Validacion;
@@ -26,12 +27,18 @@ public class AutorService {
 
     @Transactional
     public void crear(String nombre) throws ExcepcionService {
-        Validacion.validarNombreSinNumeros(nombre);
+        validarAutor(nombre);
+
         Autor autor = new Autor();
         autor.setNombre(nombre);
         autor.setAlta(true);
         repositorio.save(autor);
+    }
 
+
+    @Transactional
+    public void validarAutor(String nombre) throws ExcepcionService {
+        Validacion.validarNombreSinNumeros(nombre);
     }
 
     @Transactional
@@ -48,7 +55,6 @@ public class AutorService {
     public Autor buscarPorId(Integer id) {
         Optional<Autor> autorOptional = repositorio.findById(id);
         return autorOptional.orElse(null);
-
     }
 
     @Transactional
@@ -60,4 +66,8 @@ public class AutorService {
     public void habilitarAutor(Integer id) {
         repositorio.habilitarAutor(id);
     }
+
 }
+
+
+
