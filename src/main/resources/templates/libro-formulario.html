@@ -34,13 +34,13 @@
         <input type="text" class="form-control" id="tituloLibro" th:field="*{titulo}" placeholder="Título" required>
 
         <div class="m-1"><label for="anioLibro"></label></div>
-        <input type="text" class="form-control" id="anioLibro" th:field="*{anio}" placeholder="Año" required>
+        <input type="number" class="form-control" id="anioLibro" th:field="*{anio}" placeholder="Año" required>
 
         <div class="m-1"><label for="ejemplaresTotalLibro"></label></div>
-        <input type="text" class="form-control" id="ejemplaresTotalLibro" th:field="*{ejemplares}" placeholder="Ejemplares totales" required>
+        <input type="number" class="form-control" id="ejemplaresTotalLibro" th:field="*{ejemplares}" placeholder="Ejemplares totales" required>
 
         <div class="m-1"><label for="ejemplaresPrestadosLibro"></label></div>
-        <input type="text" class="form-control" id="ejemplaresPrestadosLibro" th:field="*{ejemplaresPrestados}" placeholder="Ejemplares prestados" required>
+        <input type="number" class="form-control" id="ejemplaresPrestadosLibro" th:field="*{ejemplaresPrestados}" placeholder="Ejemplares prestados" required>
 
         <select class="form-select mt-3" aria-label="Seleccion autor" th:field="*{autor}" required>
             <div class="mb-2"><label for="autor"></label></div>

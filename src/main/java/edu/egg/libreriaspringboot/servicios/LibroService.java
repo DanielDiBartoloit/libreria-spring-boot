@@ -39,7 +39,7 @@ public class LibroService {
         throw new ExcepcionService("El isbn ya pertenece a otro libro");
         }
 
-        Validacion.validarTamanioIsbn(isbn);
+        validarLibro(isbn, anio, ejemplares, ejemplaresPrestados);
 
         Libro libro = new Libro();
         libro.setAlta(true);
@@ -52,6 +52,12 @@ public class LibroService {
         libro.setAutor(autorServicio.buscarPorId(idAutor));
         libro.setEditorial(editorialServicio.buscarPorId(idEditorial));
         libroRepositorio.save(libro);
+    }
+
+    public void validarLibro(Long isbn, Integer anio, Integer ejemplares, Integer ejemplaresPrestados) throws ExcepcionService{
+        Validacion.validarTamanioIsbn(isbn);
+        Validacion.validarEjemplares(ejemplares, ejemplaresPrestados);
+        Validacion.validarAnio(anio);
     }
 
     @Transactional
