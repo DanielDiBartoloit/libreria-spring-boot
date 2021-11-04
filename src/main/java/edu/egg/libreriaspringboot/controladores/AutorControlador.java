@@ -28,7 +28,7 @@ public class AutorControlador {
         if (flashMap != null){
             mav.addObject("exitoAutor", flashMap.get("exito-nombre-autor"));
             mav.addObject("exitoModificacionAutor", flashMap.get("exito-autor-modificado"));
-            mav.addObject("erroAutor", flashMap.get("error-nombre-autor"));
+            mav.addObject("errorAutor", flashMap.get("error-nombre-autor"));
         }
 
         mav.addObject("autores", servicioAutor.obtenerAutores());

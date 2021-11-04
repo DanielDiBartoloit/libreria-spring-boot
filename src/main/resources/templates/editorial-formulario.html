@@ -24,11 +24,12 @@
 <div class="container mt-4 main">
     <h1 th:text="${title}"></h1>
     <hr class="mb-4"/>
+    <div class="alert alert-danger" th:if="${errorEditorialCreada != null}" th:text="${errorEditorialCreada}"></div>
     <form method="post" th:action="@{/editoriales/__${action}__}" th:object="${editorial}">
         <input th:field="*{id}" type="hidden"/>
         <div class="form-group">
-            <div class="mb-2"><label for="nombreAutor">Nombre</label></div>
-            <input type="text" class="form-control" id="nombreAutor" th:field="*{nombre}" placeholder="Nombre de la editorial" required>
+            <div class="mb-2"><label for="nombreEditorial">Nombre</label></div>
+            <input type="text" class="form-control" id="nombreEditorial" th:field="*{nombre}" placeholder="Nombre de la editorial" required>
         </div>
         <button type="submit" class="btn btn-success mt-3" th:text="${action == 'guardar'} ? 'Crear Editorial' : 'Guardar cambios'"></button>
     </form>

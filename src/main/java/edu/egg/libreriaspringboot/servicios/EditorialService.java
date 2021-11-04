@@ -4,6 +4,7 @@ import edu.egg.libreriaspringboot.entidades.Autor;
 import edu.egg.libreriaspringboot.entidades.Editorial;
 import edu.egg.libreriaspringboot.excepciones.ExcepcionService;
 import edu.egg.libreriaspringboot.repositorios.EditorialRepositorio;
+import edu.egg.libreriaspringboot.utilities.Validacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,10 +26,9 @@ public class EditorialService {
     @Transactional
     public void crear(String nombre) throws ExcepcionService {
 
-        Optional <Editorial> nombreEditorial = repositorio.buscarEditorialPorNombre(nombre);
-        if (nombreEditorial.isPresent()){
-            throw new ExcepcionService("La editorial ya se encuentra registrada");
-        }
+
+
+        validarEditorial(nombre);
 
         Editorial editorial = new Editorial();
         editorial.setNombre(nombre);
@@ -36,6 +36,17 @@ public class EditorialService {
         repositorio.save(editorial);
     }
 
+
+    @Transactional
+    public void validarEditorial(String nombre) throws ExcepcionService {
+
+        Optional <Editorial> nombreEditorial = repositorio.buscarEditorialPorNombre(nombre);
+        if (nombreEditorial.isPresent()){
+            throw new ExcepcionService("La editorial ya se encuentra registrada");
+        }
+
+        Validacion.validarEspacioVacio(nombre);
+    }
 
     @Transactional
     public void eliminarEditorial(Integer id){
@@ -54,22 +65,24 @@ public class EditorialService {
 
     }
 
+
     @Transactional
     public void modificarEditorial(Integer id, String nombre) throws ExcepcionService {
-        Optional <Editorial> nombreEditorial = repositorio.buscarEditorialPorNombre(nombre);
-        if (nombreEditorial.isPresent()){
-            throw new ExcepcionService("La editorial ya se encuentra registrada");
-        }
 
+        validarEditorial(nombre);
         repositorio.modificarNombreEditorial(id, nombre);
     }
-
 
     @Transactional
     public void habilitarEditorial(Integer id) {
         repositorio.habilitarEditorial(id);
     }
+
+
+
 }
+
+
 
 
 

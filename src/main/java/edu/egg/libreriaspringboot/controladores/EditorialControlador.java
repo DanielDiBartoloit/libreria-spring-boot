@@ -28,7 +28,7 @@ public class EditorialControlador {
         if (flashMap != null){
             mav.addObject("exitoEditorialCreada", flashMap.get("exito-editorial-creada"));
             mav.addObject("exitoEditorialModificada", flashMap.get("exito-editorial-modificada"));
-            mav.addObject("errorEditorialCreada", flashMap.get("error-editorial-creada"));
+
         }
 
         mav.addObject("editoriales", servicioEditorial.obtenerEditoriales());
@@ -37,28 +37,50 @@ public class EditorialControlador {
 
 
     @GetMapping("/crear")
-    public ModelAndView crearEditorial() {
+    public ModelAndView crearEditorial(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("editorial-formulario");
-        mav.addObject("editorial", new Editorial());
+        Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+
+        Editorial editorial = new Editorial();
+        mav.addObject("editorial", editorial);
+
+        //preguntar cristian, toma el error pero no el atributo nombre
+
+        if (flashMap != null){
+            mav.addObject("nombre",flashMap.get("nombre-editorial"));
+            mav.addObject("errorEditorialCreada", flashMap.get("error-editorial-creada"));
+
+        }
+
+
         mav.addObject("title", "Formulario nueva Editorial");
         mav.addObject("action", "guardar");
+
+
         return mav;
     }
 
     @PostMapping("/guardar")
     public RedirectView guardarEditorial(@RequestParam String nombre, RedirectAttributes attributes){
 
+        RedirectView rv = new RedirectView("/editoriales/todos");
+
         try{
             servicioEditorial.crear(nombre);
+
             attributes.addFlashAttribute("exito-editorial-creada", "Editorial creada exitosamente");
 
         }catch (Exception e){
             attributes.addFlashAttribute("error-editorial-creada", e.getMessage());
-        }
+            attributes.addFlashAttribute("nombre-editorial", nombre);
 
-        return new RedirectView("/editoriales/todos");
+            rv.setUrl("/editoriales/crear");
+        }
+        return rv;
 
     }
+
+
 
     @PostMapping("/eliminar/{id}")
     public RedirectView eliminarEditorial(@PathVariable Integer id){

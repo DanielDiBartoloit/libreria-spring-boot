@@ -28,7 +28,7 @@
         <input th:field="*{id}" type="hidden"/>
 
         <div class="m-1"><label for="isbnLibro"></label></div>
-        <input type="text" class="form-control" id="isbnLibro" th:field="*{isbn}" placeholder="ISBN" required>
+        <input type="number" class="form-control" id="isbnLibro" th:field="*{isbn}" placeholder="ISBN" required>
 
         <div class="m-1"><label for="tituloLibro"></label></div>
         <input type="text" class="form-control" id="tituloLibro" th:field="*{titulo}" placeholder="Título" required>

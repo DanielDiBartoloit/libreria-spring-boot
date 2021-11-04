@@ -26,12 +26,12 @@ public class AutorService {
 
     @Transactional
     public void crear(String nombre) throws ExcepcionService {
-        Validacion.validarEspacioVacio(nombre);
         Validacion.validarNombreSinNumeros(nombre);
         Autor autor = new Autor();
         autor.setNombre(nombre);
         autor.setAlta(true);
         repositorio.save(autor);
+
     }
 
     @Transactional

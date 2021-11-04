@@ -19,7 +19,7 @@ public class Validacion {
 
     public static void validarNombreSinNumeros(String nombre) throws ExcepcionService{
         validarEspacioVacio(nombre);
-            // valido si el nombre tiene se compone de letras y numero o numeros solos
+            // valido si el nombre se compone de letras y numero o numeros solos
         if (nombre.matches(".*([a-zA-Z].*[0-9]|[0-9].*[a-zA-Z]).*") || nombre.matches(".*[0-9].*")){
             throw new ExcepcionService("El nombre solo puede contener letras");
         }
