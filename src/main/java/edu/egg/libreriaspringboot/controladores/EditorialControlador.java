@@ -28,12 +28,12 @@ public class EditorialControlador {
         if (flashMap != null){
             mav.addObject("exitoEditorialCreada", flashMap.get("exito-editorial-creada"));
             mav.addObject("exitoEditorialModificada", flashMap.get("exito-editorial-modificada"));
-
         }
 
         mav.addObject("editoriales", servicioEditorial.obtenerEditoriales());
         return mav;
     }
+
 
 
     @GetMapping("/crear")
@@ -42,21 +42,17 @@ public class EditorialControlador {
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
 
         Editorial editorial = new Editorial();
-        mav.addObject("editorial", editorial);
 
-        //preguntar cristian, toma el error pero no el atributo nombre
+        // Si hay errores, inserto el atributo que ya escribió (si hay error es porque hay que castear)
 
         if (flashMap != null){
-            mav.addObject("nombre",flashMap.get("nombre-editorial"));
+            editorial.setNombre((String) flashMap.get("nombre-editorial"));
             mav.addObject("errorEditorialCreada", flashMap.get("error-editorial-creada"));
-
         }
 
-
+        mav.addObject("editorial", editorial);
         mav.addObject("title", "Formulario nueva Editorial");
         mav.addObject("action", "guardar");
-
-
         return mav;
     }
 
@@ -80,8 +76,6 @@ public class EditorialControlador {
 
     }
 
-
-
     @PostMapping("/eliminar/{id}")
     public RedirectView eliminarEditorial(@PathVariable Integer id){
         servicioEditorial.eliminarEditorial(id);
@@ -102,27 +96,56 @@ public class EditorialControlador {
     }
 
     @GetMapping("/editar/{id}")
-    public ModelAndView editarEditorial(@PathVariable Integer id){
+    public ModelAndView editarEditorial(@PathVariable Integer id, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("editorial-formulario");
-        mav.addObject("editorial", servicioEditorial.buscarPorId(id));
+        Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+
+        Editorial editorial = servicioEditorial.buscarPorId(id);
+
+        if (flashMap != null){
+            editorial.setNombre((String) flashMap.get("nombre-editorial"));
+            mav.addObject("errorEditorialCreada", flashMap.get("error-editorial-creada"));
+        }
+
+        mav.addObject("editorial", editorial);
         mav.addObject("title", "Editar Editorial");
         mav.addObject("action", "modificar");
-        return mav;
 
+        return mav;
     }
 
     @PostMapping("/modificar")
     public RedirectView modificarEditorial(@RequestParam Integer id, @RequestParam String nombre, RedirectAttributes attributes){
+        RedirectView rv = new RedirectView("/editoriales/todos");
+
         try{
             servicioEditorial.modificarEditorial(id, nombre);
             attributes.addFlashAttribute("exito-editorial-modificada", "Editorial modificada exitosamente");
         }catch (Exception e){
             attributes.addFlashAttribute("error-editorial-creada", e.getMessage());
+            attributes.addFlashAttribute("nombre-editorial", nombre);
+
+            rv.setUrl("/editoriales/editar/" + id);
         }
 
-        return new RedirectView("/editoriales/todos");
+        return rv;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

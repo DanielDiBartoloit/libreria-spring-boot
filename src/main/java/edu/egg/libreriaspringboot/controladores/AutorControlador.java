@@ -40,11 +40,14 @@ public class AutorControlador {
         ModelAndView mav = new ModelAndView("autor-formulario");
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
 
+        Autor autor = new Autor();
+
         if (flashMap != null){
+            autor.setNombre((String) flashMap.get("nombre-autor"));
             mav.addObject("errorAutor", flashMap.get("error-nombre-autor"));
         }
 
-        mav.addObject("autor", new Autor());
+        mav.addObject("autor", autor);
         mav.addObject("title", "Formulario nuevo Autor");
         mav.addObject("action", "guardar");
         return mav;
@@ -68,7 +71,7 @@ public class AutorControlador {
             attributes.addFlashAttribute("exito-nombre-autor", "Autor creado exitosamente");
         }catch(Exception e){
             attributes.addFlashAttribute("error-nombre-autor", e.getMessage());
-            attributes.addFlashAttribute("nombre", nombre);
+            attributes.addFlashAttribute("nombre-autor", nombre);
             rv.setUrl("/autores/crear");
         }
         return rv;
