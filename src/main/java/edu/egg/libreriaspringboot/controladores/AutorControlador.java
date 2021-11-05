@@ -27,8 +27,6 @@ public class AutorControlador {
 
         if (flashMap != null){
             mav.addObject("exitoAutor", flashMap.get("exito-nombre-autor"));
-
-
         }
 
         mav.addObject("autores", servicioAutor.obtenerAutores());
@@ -53,7 +51,6 @@ public class AutorControlador {
         return mav;
     }
 
-
     @GetMapping("/buscar")
     public ModelAndView buscarAutores(@RequestParam String keyword){
         ModelAndView mav = new ModelAndView("autor");
@@ -77,10 +74,6 @@ public class AutorControlador {
         return rv;
     }
 
-
-
-
-
     @PostMapping("/eliminar/{id}")
     public RedirectView eliminarAutor(@PathVariable Integer id){
         servicioAutor.eliminarAutor(id);
@@ -94,25 +87,53 @@ public class AutorControlador {
     }
 
     @GetMapping("/editar/{id}")
-    public ModelAndView editarAutor(@PathVariable Integer id){
+    public ModelAndView editarAutor(@PathVariable Integer id, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("autor-formulario");
-        mav.addObject("autor", servicioAutor.buscarPorId(id));
+        Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+
+        Autor autor = servicioAutor.buscarPorId(id);
+
+        if (flashMap != null){
+            autor.setNombre((String) flashMap.get("nombre-autor"));
+            mav.addObject("errorAutor", flashMap.get("error-nombre-autor"));
+        }
+
+        mav.addObject("autor", autor);
         mav.addObject("title", "Editar Autor");
         mav.addObject("action", "modificar");
         return mav;
-
     }
 
     @PostMapping("/modificar")
     public RedirectView modificarAutor(@RequestParam Integer id, @RequestParam String nombre, RedirectAttributes attributes){
-        servicioAutor.modificarAutor(id, nombre);
-        attributes.addFlashAttribute("exito-nombre-autor", "Autor modificado exitosamente");
-        return new RedirectView("/autores/todos");
+        RedirectView rv = new RedirectView("/autores/todos");
 
+        try{
+            servicioAutor.modificarAutor(id, nombre);
+            attributes.addFlashAttribute("exito-nombre-autor", "Autor modificado exitosamente");
+        } catch (Exception e){
+            attributes.addFlashAttribute("error-nombre-autor", e.getMessage());
+            attributes.addFlashAttribute("nombre-autor", nombre);
+            rv.setUrl("/autores/editar/" + id);
+        }
+
+        return rv;
     }
 
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

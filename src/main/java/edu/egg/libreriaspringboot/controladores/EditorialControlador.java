@@ -34,8 +34,6 @@ public class EditorialControlador {
         return mav;
     }
 
-
-
     @GetMapping("/crear")
     public ModelAndView crearEditorial(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("editorial-formulario");
@@ -73,7 +71,6 @@ public class EditorialControlador {
             rv.setUrl("/editoriales/crear");
         }
         return rv;
-
     }
 
     @PostMapping("/eliminar/{id}")
@@ -130,6 +127,9 @@ public class EditorialControlador {
 
         return rv;
     }
+
+
+
 }
 
 

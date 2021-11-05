@@ -58,7 +58,8 @@ public class AutorService {
     }
 
     @Transactional
-    public void modificarAutor(Integer id, String nombre) {
+    public void modificarAutor(Integer id, String nombre) throws ExcepcionService {
+        validarAutor(nombre);
         repositorio.modificarNombreAutor(id, nombre);
     }
 
@@ -66,6 +67,8 @@ public class AutorService {
     public void habilitarAutor(Integer id) {
         repositorio.habilitarAutor(id);
     }
+
+
 
 }
 
