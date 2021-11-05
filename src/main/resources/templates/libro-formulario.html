@@ -24,6 +24,7 @@
 <div class="container mt-4 main mb-5">
     <h1 th:text="${title}"></h1>
     <hr class="mb-2"/>
+    <div class="alert alert-danger" th:if="${errorLibroCreado != null}" th:text="${errorLibroCreado}"></div>
     <form method="post" th:action="@{/libros/__${action}__}" th:object="${libro}">
         <input th:field="*{id}" type="hidden"/>
 

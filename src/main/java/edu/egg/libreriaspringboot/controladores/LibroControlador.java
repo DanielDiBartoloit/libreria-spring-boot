@@ -37,7 +37,7 @@ public class LibroControlador {
         if (flashMap != null){
             mav.addObject("exitoLibroCreado", flashMap.get("exito-libro-creado"));
             mav.addObject("exitoLibroModificado", flashMap.get("exito-libro-modificado"));
-            mav.addObject("errorLibroCreado", flashMap.get("error-libro-creado"));
+
         }
 
         List<Libro> libros = servicioLibro.obtenerLibros();
@@ -47,9 +47,22 @@ public class LibroControlador {
 
 
     @GetMapping("/crear")
-    public ModelAndView crearLibro(){
+    public ModelAndView crearLibro(HttpServletRequest request){
         ModelAndView mav = new ModelAndView("libro-formulario");
-        mav.addObject("libro", new Libro());
+        Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+
+        Libro libro = new Libro();
+
+        if (flashMap != null){
+            mav.addObject("errorLibroCreado", flashMap.get("error-libro-creado"));
+            libro.setIsbn((Long) flashMap.get("isbn"));
+            libro.setTitulo((String) flashMap.get("titulo"));
+            libro.setAnio((Integer) flashMap.get("anio"));
+            libro.setEjemplares((Integer) flashMap.get("ejemplares"));
+            libro.setEjemplaresPrestados((Integer) flashMap.get("ejemplaresPrestados"));
+        }
+
+        mav.addObject("libro", libro);
         mav.addObject("autores", servicioAutor.obtenerAutores());
         mav.addObject("editoriales",servicioEditorial.obtenerEditoriales());
         mav.addObject("title", "Formulario nuevo Libro");
@@ -58,18 +71,30 @@ public class LibroControlador {
         return mav;
     }
 
+
+
+
     @PostMapping("/guardar")
     public RedirectView guardarLibro(@RequestParam Long isbn, @RequestParam String titulo, @RequestParam Integer anio, @RequestParam Integer ejemplares, @RequestParam Integer ejemplaresPrestados, @RequestParam("autor") Integer idAutor, @RequestParam("editorial") Integer idEditorial, RedirectAttributes attributes){
+        RedirectView rv = new RedirectView("/libros/todos");
+
 
         try{
             servicioLibro.crear(isbn, titulo, anio, ejemplares, ejemplaresPrestados, idAutor, idEditorial);
             attributes.addFlashAttribute("exito-libro-creado", "Libro creado exitosamente");
 
-        } catch (Exception e){
+        } catch (Exception e) {
             attributes.addFlashAttribute("error-libro-creado", e.getMessage());
-        } //
+            attributes.addFlashAttribute("isbn", isbn);
+            attributes.addFlashAttribute("titulo", titulo);
+            attributes.addFlashAttribute("anio", anio);
+            attributes.addFlashAttribute("ejemplares", ejemplares);
+            attributes.addFlashAttribute("ejemplaresPrestados", ejemplaresPrestados);
+            rv.setUrl("/libros/crear");
+        }
 
-        return new RedirectView("/libros/todos");
+
+        return rv;
     }
 
 
