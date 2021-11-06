@@ -71,13 +71,9 @@ public class LibroControlador {
         return mav;
     }
 
-
-
-
     @PostMapping("/guardar")
     public RedirectView guardarLibro(@RequestParam Long isbn, @RequestParam String titulo, @RequestParam Integer anio, @RequestParam Integer ejemplares, @RequestParam Integer ejemplaresPrestados, @RequestParam("autor") Integer idAutor, @RequestParam("editorial") Integer idEditorial, RedirectAttributes attributes){
         RedirectView rv = new RedirectView("/libros/todos");
-
 
         try{
             servicioLibro.crear(isbn, titulo, anio, ejemplares, ejemplaresPrestados, idAutor, idEditorial);
@@ -92,16 +88,8 @@ public class LibroControlador {
             attributes.addFlashAttribute("ejemplaresPrestados", ejemplaresPrestados);
             rv.setUrl("/libros/crear");
         }
-
-
         return rv;
     }
-
-
-
-
-
-
 
     @PostMapping("/eliminar/{id}")
     public RedirectView eliminarLibro(@PathVariable Integer id){
@@ -123,24 +111,66 @@ public class LibroControlador {
     }
 
     @GetMapping("/editar/{id}")
-    public ModelAndView editarLibro(@PathVariable Integer id){
+    public ModelAndView editarLibro(@PathVariable Integer id, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("libro-formulario");
-        mav.addObject("libro", servicioLibro.buscarPorId(id));
+        Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+
+        Libro libro = servicioLibro.buscarPorId(id);
+
+        if (flashMap != null){
+            mav.addObject("errorLibroCreado", flashMap.get("error-libro-modificado"));
+            libro.setIsbn((Long) flashMap.get("isbn"));
+            libro.setTitulo((String) flashMap.get("titulo"));
+            libro.setAnio((Integer) flashMap.get("anio"));
+            libro.setEjemplares((Integer) flashMap.get("ejemplares"));
+            libro.setEjemplaresPrestados((Integer) flashMap.get("ejemplaresPrestados"));
+        }
+
+        mav.addObject("libro", libro);
         mav.addObject("autores", servicioAutor.obtenerAutores());
         mav.addObject("editoriales",servicioEditorial.obtenerEditoriales());
         mav.addObject("title", "Editar Libro");
         mav.addObject("action", "modificar");
+
         return mav;
     }
 
     @PostMapping("/modificar")
     public RedirectView modificarLibro(@RequestParam Integer id, @RequestParam Long isbn, @RequestParam String titulo, @RequestParam Integer anio, @RequestParam Integer ejemplares, @RequestParam Integer ejemplaresPrestados, @RequestParam("autor") Integer autorId, @RequestParam("editorial") Integer editorialId, RedirectAttributes attributes){
-        attributes.addFlashAttribute("exito-libro-modificado", "Libro modificado exitosamente");
-        servicioLibro.modificarAutor(id, isbn, titulo, anio, ejemplares, ejemplaresPrestados, autorId, editorialId);
-        return new RedirectView("/libros/todos");
-    }
+        RedirectView rv = new RedirectView("/libros/todos");
 
+        try{
+            attributes.addFlashAttribute("exito-libro-modificado", "Libro modificado exitosamente");
+            servicioLibro.modificarLibro(id, isbn, titulo, anio, ejemplares, ejemplaresPrestados, autorId, editorialId);
+        } catch (Exception e){
+            attributes.addFlashAttribute("error-libro-modificado", e.getMessage());
+            attributes.addFlashAttribute("isbn", isbn);
+            attributes.addFlashAttribute("titulo", titulo);
+            attributes.addFlashAttribute("anio", anio);
+            attributes.addFlashAttribute("ejemplares", ejemplares);
+            attributes.addFlashAttribute("ejemplaresPrestados", ejemplaresPrestados);
+            rv.setUrl("/libros/editar/" + id);
+        }
+        return rv;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

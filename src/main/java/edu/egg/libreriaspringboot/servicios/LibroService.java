@@ -82,16 +82,23 @@ public class LibroService {
     }
 
     @Transactional
-    public void modificarAutor(Integer id, Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer autorId, Integer editorialId) {
-    Autor autor = autorServicio.buscarPorId(autorId);
-    Editorial editorial = editorialServicio.buscarPorId(editorialId);
-    libroRepositorio.modificarLibro(id, isbn, titulo, anio, ejemplares, ejemplaresPrestados, autor, editorial);
+    public void modificarLibro(Integer id, Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer autorId, Integer editorialId) throws ExcepcionService {
 
+        validarLibro(isbn, anio, ejemplares, ejemplaresPrestados);
+
+        Autor autor = autorServicio.buscarPorId(autorId);
+        Editorial editorial = editorialServicio.buscarPorId(editorialId);
+        libroRepositorio.modificarLibro(id, isbn, titulo, anio, ejemplares, ejemplaresPrestados, autor, editorial);
     }
-
-
-
 }
+
+
+
+
+
+
+
+
 
 
 
