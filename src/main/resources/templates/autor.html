@@ -42,16 +42,20 @@
         <table class="table table-hover table-sm table-bordered">
             <thead class="table-secondary text-center">
                 <tr>
-                    <th class="col-md-4 px-md-2" scope="col">ID</th>
-                    <th class="col-md-4 px-md-2" scope="col">Nombre</th>
-                    <th class="col-md-4 px-md-2" scope="col">Alta</th>
-                    <th class="col-md-4 px-md-2" scope="col">Acciones</th>
+                    <th class="col-2" scope="col">ID</th>
+                    <th class="col-2" scope="col">Nombre</th>
+                    <th class="col-2" scope="col">Creación</th>
+                    <th class="col-2" scope="col">Modificación</th>
+                    <th class="col-1" scope="col">Alta</th>
+                    <th class="col-3" scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="autor : ${autores}" th:class=" ${autor.alta ? 'text-dark' : 'text-muted'}">
                     <td class="col-md-3 px-md-2 text-center" th:text="${autor.id}"></td>
                     <td class="col-md-3 px-md-2 text-center text-uppercase" th:text="${autor.nombre}"></td>
+                    <td class="col-md-3 px-md-2 text-center" th:text="${#temporals.format(autor.fechaCreacion, 'dd-MM-yyyy HH:mm')}"></td>
+                    <td class="col-md-3 px-md-2 text-center" th:text="${#temporals.format(autor.fechaModificacion, 'dd-MM-yyyy HH:mm')}"></td>
                     <td class="col-md-3 px-md-2 text-center" th:text="${autor.alta}"></td>
 
                     <td class="col-md-3 px-md-2 d-flex justify-content-around align-items-center w-100">
@@ -68,8 +72,10 @@
     </div>
 </div>
 
-
-<footer th:replace="fragmentos :: footer"></footer>
+<!-- Footer -->
+<div th:class="${autores.isEmpty() ? 'fixed-bottom' : 'sticky-bottom'}">
+    <footer th:replace="fragmentos :: footer"></footer>
+</div>
 
 
 

@@ -43,17 +43,22 @@
     <div class="table-responsive" th:unless="${editoriales.isEmpty()}">
         <table class="table table-hover table-sm table-bordered">
             <thead class="table-secondary text-center">
-            <tr>
-                <th class="col-md-4 px-md-2" scope="col">ID</th>
-                <th class="col-md-4 px-md-2" scope="col">Nombre</th>
-                <th class="col-md-4 px-md-2" scope="col">Alta</th>
-                <th class="col-md-4 px-md-2" scope="col">Acciones</th>
-            </tr>
+                <tr>
+                    <th class="col-2" scope="col">ID</th>
+                    <th class="col-2" scope="col">Nombre</th>
+                    <th class="col-2" scope="col">Creación</th>
+                    <th class="col-2" scope="col">Modificación</th>
+                    <th class="col-1" scope="col">Alta</th>
+                    <th class="col-3" scope="col">Acciones</th>
+                </tr>
             </thead>
+
             <tbody>
                 <tr th:each="editorial : ${editoriales}" th:class=" ${editorial.alta ? 'text-dark' : 'text-muted'}">
                     <td class="col-md-3 px-md-2 text-center" th:text="${editorial.id}"></td>
                     <td class="col-md-3 px-md-2 text-center text-uppercase" th:text="${editorial.nombre}"></td>
+                    <td class="col-md-3 px-md-2 text-center" th:text="${#temporals.format(editorial.fechaCreacion, 'dd-MM-yyyy HH:mm')}"></td>
+                    <td class="col-md-3 px-md-2 text-center" th:text="${#temporals.format(editorial.fechaModificacion, 'dd-MM-yyyy HH:mm')}"></td>
                     <td class="col-md-3 px-md-2 text-center" th:text="${editorial.alta}"></td>
 
                     <td class="col-md-3 px-md-2 d-flex justify-content-around align-items-center w-100">
@@ -71,9 +76,11 @@
 </div>
 
 <!-- Footer -->
-<footer th:replace="fragmentos :: footer"></footer>
-
+<div th:class="${editoriales.isEmpty() ? 'fixed-bottom' : 'sticky-bottom'}">
+    <footer th:replace="fragmentos :: footer"></footer>
+</div>
 <!-- JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
+
