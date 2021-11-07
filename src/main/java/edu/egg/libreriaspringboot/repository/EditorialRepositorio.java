@@ -1,8 +1,8 @@
-package edu.egg.libreriaspringboot.repositorios;
+package edu.egg.libreriaspringboot.repository;
 
 
 
-import edu.egg.libreriaspringboot.entidades.Editorial;
+import edu.egg.libreriaspringboot.entity.Editorial;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

@@ -1,4 +1,4 @@
-package edu.egg.libreriaspringboot.excepciones;
+package edu.egg.libreriaspringboot.exception;
 
 public class ExcepcionService extends Exception{
 

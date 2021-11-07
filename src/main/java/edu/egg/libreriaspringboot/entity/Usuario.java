@@ -1,4 +1,4 @@
-package edu.egg.libreriaspringboot.entidades;
+package edu.egg.libreriaspringboot.entity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,17 +7,17 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
+
 import java.time.LocalDateTime;
-import java.util.List;
+
+import javax.persistence.*;
 
 @Entity
-@Getter @Setter // @NoArgsConstructor // @AllArgsConstructor // usar solo getters setters // @data g s tostring re//
+@Setter
+@Getter
 @EntityListeners(AuditingEntityListener.class)
-@SQLDelete(sql = "UPDATE Autor a SET a.alta = false WHERE a.id = ?") // sql puro
-//@Where(clause = "alta = true") // condicion// sin esto soft delete y muestra, habilitado lo saca de la vista
-
-public class Autor {
+@SQLDelete(sql = "UPDATE usuario SET alta = false WHERE dni = ?")
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,22 +26,24 @@ public class Autor {
     @Column(nullable = false)
     private String nombre;
 
+    @Column(nullable = false)
+    private String apellido;
+
+    @Column(nullable = false, unique = true)
+    private String correo;
+
+    @Column(nullable = false)
+    private String clave;
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private LocalDateTime fechaCreacion;
+    private LocalDateTime creacion;
 
     @LastModifiedDate
-    private LocalDateTime fechaModificacion;
+    private LocalDateTime modificacion;
 
     private Boolean alta;
-
-    @OneToMany(mappedBy = "autor")
-    private List<Libro> libros;
 }
-
-
-
-
 
 
 

@@ -1,14 +1,13 @@
-package edu.egg.libreriaspringboot.servicios;
+package edu.egg.libreriaspringboot.service;
 
-import edu.egg.libreriaspringboot.entidades.Autor;
+import edu.egg.libreriaspringboot.entity.Autor;
 
-import edu.egg.libreriaspringboot.excepciones.ExcepcionService;
-import edu.egg.libreriaspringboot.repositorios.AutorRepositorio;
+import edu.egg.libreriaspringboot.exception.ExcepcionService;
+import edu.egg.libreriaspringboot.repository.AutorRepositorio;
 import edu.egg.libreriaspringboot.utilities.Validacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.util.List;

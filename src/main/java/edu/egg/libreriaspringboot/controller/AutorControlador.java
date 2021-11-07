@@ -1,7 +1,7 @@
-package edu.egg.libreriaspringboot.controladores;
+package edu.egg.libreriaspringboot.controller;
 
-import edu.egg.libreriaspringboot.entidades.Autor;
-import edu.egg.libreriaspringboot.servicios.AutorService;
+import edu.egg.libreriaspringboot.entity.Autor;
+import edu.egg.libreriaspringboot.service.AutorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

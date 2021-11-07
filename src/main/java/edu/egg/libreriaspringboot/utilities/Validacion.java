@@ -1,6 +1,6 @@
 package edu.egg.libreriaspringboot.utilities;
 
-import edu.egg.libreriaspringboot.excepciones.ExcepcionService;
+import edu.egg.libreriaspringboot.exception.ExcepcionService;
 
 import java.time.LocalDate;
 

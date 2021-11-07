@@ -1,10 +1,10 @@
-package edu.egg.libreriaspringboot.servicios;
+package edu.egg.libreriaspringboot.service;
 
-import edu.egg.libreriaspringboot.entidades.Autor;
-import edu.egg.libreriaspringboot.entidades.Editorial;
-import edu.egg.libreriaspringboot.entidades.Libro;
-import edu.egg.libreriaspringboot.excepciones.ExcepcionService;
-import edu.egg.libreriaspringboot.repositorios.LibroRepositorio;
+import edu.egg.libreriaspringboot.entity.Autor;
+import edu.egg.libreriaspringboot.entity.Editorial;
+import edu.egg.libreriaspringboot.entity.Libro;
+import edu.egg.libreriaspringboot.exception.ExcepcionService;
+import edu.egg.libreriaspringboot.repository.LibroRepositorio;
 import edu.egg.libreriaspringboot.utilities.Validacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

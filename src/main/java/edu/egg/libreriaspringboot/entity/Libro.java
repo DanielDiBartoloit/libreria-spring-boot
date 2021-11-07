@@ -1,4 +1,4 @@
-package edu.egg.libreriaspringboot.entidades;
+package edu.egg.libreriaspringboot.entity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,21 +9,34 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Getter @Setter
+@SQLDelete(sql = "UPDATE Libro l SET l.alta = false WHERE l.id = ?")
 @EntityListeners(AuditingEntityListener.class)
-@SQLDelete(sql = "UPDATE Editorial e SET e.alta = false WHERE e.id = ?")
 //@Where(clause = "alta = true")
-public class Editorial {
+public class Libro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
-    private String nombre;
+    private Long isbn;
+
+    @Column(nullable = false)
+    private String titulo;
+
+    @Column(nullable = false)
+    private Integer anio;
+
+    @Column(nullable = false)
+    private Integer ejemplares;
+
+    @Column(nullable = false)
+    private Integer ejemplaresPrestados;
+
+    private Integer ejemplaresRestantes;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -34,12 +47,12 @@ public class Editorial {
 
     private Boolean alta;
 
-    @OneToMany(mappedBy = "editorial")
-    private List<Libro> libros;
+    @ManyToOne
+    private Autor autor;
+
+    @ManyToOne
+    private Editorial editorial;
 }
-
-
-
 
 
 
