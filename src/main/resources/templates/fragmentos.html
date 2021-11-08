@@ -60,11 +60,14 @@
                 </li>
             </ul>
         </div>
+        <div class="text-end">
+            <a class="btn btn-light" th:href="@{/logout}">Finalizar sesión</a>
+        </div>
     </div>
 </nav>
 
 <!--Footer-->
-<footer th:fragment="footer" class="bg-dark text-center text-white fixed-bottom">
+<footer th:fragment="footer" class="bg-dark text-center text-white">
     <!-- Grid container -->
     <div class="container p-3">
         <!-- Section: Social media -->
@@ -75,12 +78,12 @@
             ></a>
 
             <!-- Google -->
-            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+            <a class="btn btn-outline-light btn-floating m-1" href="danieldibartoloit@gmail.com" role="button"
             ><i class="fab fa-google"></i
             ></a>
 
             <!-- Github -->
-            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+            <a class="btn btn-outline-light btn-floating m-1" target="_blank" href="https://github.com/DanielDiBartoloit" role="button"
             ><i class="fab fa-github"></i
             ></a>
             <div class="text-center mt-1">&copy; DDB 👽 - 2021</div>
