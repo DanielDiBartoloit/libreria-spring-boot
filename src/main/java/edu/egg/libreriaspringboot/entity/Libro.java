@@ -11,7 +11,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @SQLDelete(sql = "UPDATE Libro l SET l.alta = false WHERE l.id = ?")
 @EntityListeners(AuditingEntityListener.class)
 //@Where(clause = "alta = true")

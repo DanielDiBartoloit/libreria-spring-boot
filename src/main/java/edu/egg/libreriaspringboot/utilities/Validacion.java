@@ -12,6 +12,24 @@ public class Validacion {
         }
     }
 
+    public static void validarEspacioVacioUsuario(String nombre, String apellido, String correo, String clave) throws ExcepcionService{
+        if(nombre.trim().isEmpty()){
+            throw new ExcepcionService("El nombre no puede estar vacío");
+        }
+
+        if ((apellido.trim().isEmpty())){
+            throw new ExcepcionService("El apellido no puede esta vacío");
+        }
+
+        if ((correo.trim().isEmpty())){
+            throw new ExcepcionService("El correo no puede esta vacío");
+        }
+
+        if ((clave.trim().isEmpty())){
+            throw new ExcepcionService("La clave no puede esta vacía");
+        }
+    }
+
     public static void validarNombreSinNumeros(String nombre) throws ExcepcionService{
         validarEspacioVacio(nombre);
             // valido si el nombre se compone de letras y numero o numeros solos
@@ -50,6 +68,9 @@ public class Validacion {
             throw new ExcepcionService("El año ingresado es mayor al actual");
         }
     }
+
+
+
 
 
 

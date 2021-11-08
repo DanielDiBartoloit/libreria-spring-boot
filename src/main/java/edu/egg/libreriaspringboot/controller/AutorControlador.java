@@ -21,11 +21,11 @@ public class AutorControlador {
     private AutorService servicioAutor;
 
     @GetMapping("todos")
-    public ModelAndView mostrarAutores(HttpServletRequest request){
+    public ModelAndView mostrarAutores(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("autor");
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
 
-        if (flashMap != null){
+        if (flashMap != null) {
             mav.addObject("exitoAutor", flashMap.get("exito-nombre-autor"));
         }
 
@@ -40,7 +40,7 @@ public class AutorControlador {
 
         Autor autor = new Autor();
 
-        if (flashMap != null){
+        if (flashMap != null) {
             autor.setNombre((String) flashMap.get("nombre-autor"));
             mav.addObject("errorAutor", flashMap.get("error-nombre-autor"));
         }
@@ -52,21 +52,21 @@ public class AutorControlador {
     }
 
     @GetMapping("/buscar")
-    public ModelAndView buscarAutores(@RequestParam String keyword){
+    public ModelAndView buscarAutores(@RequestParam String keyword) {
         ModelAndView mav = new ModelAndView("autor");
         mav.addObject("autores", servicioAutor.buscarPorNombre(keyword));
         return mav;
     }
 
     @PostMapping("/guardar")
-    public RedirectView guardarAutor(@RequestParam String nombre, RedirectAttributes attributes){
+    public RedirectView guardarAutor(@RequestParam String nombre, RedirectAttributes attributes) {
 
         RedirectView rv = new RedirectView("/autores/todos");
 
-        try{
+        try {
             servicioAutor.crear(nombre);
             attributes.addFlashAttribute("exito-nombre-autor", "Autor creado exitosamente");
-        }catch(Exception e){
+        } catch (Exception e) {
             attributes.addFlashAttribute("error-nombre-autor", e.getMessage());
             attributes.addFlashAttribute("nombre-autor", nombre);
             rv.setUrl("/autores/crear");
@@ -75,25 +75,25 @@ public class AutorControlador {
     }
 
     @PostMapping("/eliminar/{id}")
-    public RedirectView eliminarAutor(@PathVariable Integer id){
+    public RedirectView eliminarAutor(@PathVariable Integer id) {
         servicioAutor.eliminarAutor(id);
         return new RedirectView("/autores/todos");
     }
 
     @PostMapping("/habilitar/{id}")
-    public RedirectView habilitarAutor(@PathVariable Integer id){
+    public RedirectView habilitarAutor(@PathVariable Integer id) {
         servicioAutor.habilitarAutor(id);
         return new RedirectView("/autores/todos");
     }
 
     @GetMapping("/editar/{id}")
-    public ModelAndView editarAutor(@PathVariable Integer id, HttpServletRequest request){
+    public ModelAndView editarAutor(@PathVariable Integer id, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("autor-formulario");
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
 
         Autor autor = servicioAutor.buscarPorId(id);
 
-        if (flashMap != null){
+        if (flashMap != null) {
             autor.setNombre((String) flashMap.get("nombre-autor"));
             mav.addObject("errorAutor", flashMap.get("error-nombre-autor"));
         }
@@ -105,13 +105,13 @@ public class AutorControlador {
     }
 
     @PostMapping("/modificar")
-    public RedirectView modificarAutor(@RequestParam Integer id, @RequestParam String nombre, RedirectAttributes attributes){
+    public RedirectView modificarAutor(@RequestParam Integer id, @RequestParam String nombre, RedirectAttributes attributes) {
         RedirectView rv = new RedirectView("/autores/todos");
 
-        try{
+        try {
             servicioAutor.modificarAutor(id, nombre);
             attributes.addFlashAttribute("exito-nombre-autor", "Autor modificado exitosamente");
-        } catch (Exception e){
+        } catch (Exception e) {
             attributes.addFlashAttribute("error-nombre-autor", e.getMessage());
             attributes.addFlashAttribute("nombre-autor", nombre);
             rv.setUrl("/autores/editar/" + id);

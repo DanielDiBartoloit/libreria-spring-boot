@@ -1,8 +1,10 @@
 package edu.egg.libreriaspringboot.service;
 
 import edu.egg.libreriaspringboot.entity.Usuario;
+import edu.egg.libreriaspringboot.exception.ExcepcionService;
 import edu.egg.libreriaspringboot.repository.UsuarioRepositorio;
 
+import edu.egg.libreriaspringboot.utilities.Validacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.core.userdetails.User;
@@ -28,10 +30,12 @@ public class UsuarioService implements UserDetailsService {
     private final String MENSAJE = "El username ingresado no existe %s";
 
     @Transactional
-    public void crear(String nombre, String apellido, String correo, String clave) throws Exception {
+    public void crear(String nombre, String apellido, String correo, String clave) throws ExcepcionService {
         if (usuarioRepository.existsByCorreo(correo)) {
-            throw new Exception("Ya existe un usuario con el correo ingresado");
+            throw new ExcepcionService("Ya existe un usuario con el correo ingresado");
         }
+
+        Validacion.validarEspacioVacioUsuario(nombre,apellido,correo,clave);
 
         Usuario usuario = new Usuario();
 
@@ -43,6 +47,9 @@ public class UsuarioService implements UserDetailsService {
 
         usuarioRepository.save(usuario);
     }
+
+
+
 
     @Override
     public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {

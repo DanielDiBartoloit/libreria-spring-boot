@@ -63,12 +63,12 @@ public class UsuarioControlador {
 
     @PostMapping("/registro")
     public RedirectView signup(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String correo, @RequestParam String clave, RedirectAttributes attributes) {
-        RedirectView redirectView = new RedirectView("/login");
+        RedirectView rv = new RedirectView("/login");
 
         try {
             usuarioService.crear(nombre, apellido, correo, clave);
-
             attributes.addFlashAttribute("exito", "El registro ha sido realizado satisfactoriamente");
+
         } catch (Exception e) {
             attributes.addFlashAttribute("error", e.getMessage());
             attributes.addFlashAttribute("nombre", nombre);
@@ -76,9 +76,9 @@ public class UsuarioControlador {
             attributes.addFlashAttribute("correo", correo);
             attributes.addFlashAttribute("clave", clave);
 
-            redirectView.setUrl("/signup");
+            rv.setUrl("/signup");
         }
 
-        return redirectView;
+        return rv;
     }
 }

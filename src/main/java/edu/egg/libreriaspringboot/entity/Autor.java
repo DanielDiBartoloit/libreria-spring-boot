@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Getter @Setter // @NoArgsConstructor // @AllArgsConstructor // usar solo getters setters // @data g s tostring re//
+@Getter
+@Setter // @NoArgsConstructor // @AllArgsConstructor // usar solo getters setters // @data g s tostring re//
 @EntityListeners(AuditingEntityListener.class)
 @SQLDelete(sql = "UPDATE Autor a SET a.alta = false WHERE a.id = ?") // sql puro
 //@Where(clause = "alta = true") // condicion// sin esto soft delete y muestra, habilitado lo saca de la vista
