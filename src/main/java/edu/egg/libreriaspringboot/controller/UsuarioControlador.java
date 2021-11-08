@@ -26,7 +26,7 @@ public class UsuarioControlador {
         ModelAndView modelAndView = new ModelAndView("login");
 
         if (error != null) {
-            modelAndView.addObject("error", "Usuario o contraseña inválida");
+            modelAndView.addObject("error", "Correo o contraseña inválida");
         }
 
         if (logout != null) {
