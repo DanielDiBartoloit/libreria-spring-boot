@@ -1,6 +1,8 @@
 package edu.egg.libreriaspringboot.controller;
 
 
+import edu.egg.libreriaspringboot.entity.Autor;
+import edu.egg.libreriaspringboot.entity.Editorial;
 import edu.egg.libreriaspringboot.entity.Libro;
 import edu.egg.libreriaspringboot.service.AutorService;
 import edu.egg.libreriaspringboot.service.EditorialService;
@@ -72,11 +74,11 @@ public class LibroControlador {
     }
 
     @PostMapping("/guardar")
-    public RedirectView guardarLibro(@RequestParam Long isbn, @RequestParam String titulo, @RequestParam Integer anio, @RequestParam Integer ejemplares, @RequestParam Integer ejemplaresPrestados, @RequestParam("autor") Integer idAutor, @RequestParam("editorial") Integer idEditorial, RedirectAttributes attributes){
+    public RedirectView guardarLibro(@RequestParam Long isbn, @RequestParam String titulo, @RequestParam Integer anio, @RequestParam Integer ejemplares, @RequestParam Integer ejemplaresPrestados, @RequestParam Autor autor, @RequestParam("editorial") Editorial editorial, RedirectAttributes attributes){
         RedirectView rv = new RedirectView("/libros/todos");
 
         try{
-            servicioLibro.crear(isbn, titulo, anio, ejemplares, ejemplaresPrestados, idAutor, idEditorial);
+            servicioLibro.crear(isbn, titulo, anio, ejemplares, ejemplaresPrestados, autor, editorial);
             attributes.addFlashAttribute("exito-libro-creado", "Libro creado exitosamente");
 
         } catch (Exception e) {

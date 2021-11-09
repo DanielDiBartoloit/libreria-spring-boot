@@ -19,7 +19,7 @@ public class EditorialService {
     private EditorialRepositorio repositorio;
 
     @Transactional(readOnly = true)
-    public List<Editorial> obtenerEditoriales(){
+    public List<Editorial> obtenerEditoriales() {
         return repositorio.findAll();
     }
 
@@ -37,17 +37,11 @@ public class EditorialService {
     @Transactional
     public void validarEditorial(String nombre) throws ExcepcionService {
 
-        Optional <Editorial> nombreEditorial = repositorio.findByNombre(nombre);
-        if (nombreEditorial.isPresent()){
+        Validacion.validarEspacioVacio(nombre);
+
+        if (repositorio.existsByNombre(nombre)) {
             throw new ExcepcionService("La editorial ya se encuentra registrada");
         }
-
-        Validacion.validarEspacioVacio(nombre);
-    }
-
-    @Transactional
-    public void eliminarEditorial(Integer id){
-        repositorio.deleteById(id);
     }
 
     @Transactional(readOnly = true)
@@ -74,10 +68,19 @@ public class EditorialService {
     }
 
     @Transactional
+    public void eliminarEditorial(Integer id) {
+        repositorio.deleteById(id);
+    }
+
+    @Transactional
     public void habilitarEditorial(Integer id) {
         repositorio.habilitarEditorial(id);
     }
 }
+
+
+
+
 
 
 

@@ -32,14 +32,13 @@ public class LibroService {
     }
 
     @Transactional
-    public void crear(Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer idAutor, Integer idEditorial) throws ExcepcionService {
-
-        Optional<Libro> isbnLibro = libroRepositorio.buscarLibroPorIsbn(isbn);
-        if (isbnLibro.isPresent()){
-        throw new ExcepcionService("El isbn ya pertenece a otro libro");
-        }
+    public void crear(Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Autor autor, Editorial editorial) throws ExcepcionService {
 
         validarLibro(isbn, anio, ejemplares, ejemplaresPrestados);
+
+        if (libroRepositorio.existsByIsbn(isbn)){
+        throw new ExcepcionService("El isbn ya pertenece a otro libro");
+        }
 
         Libro libro = new Libro();
         libro.setAlta(true);
@@ -49,10 +48,13 @@ public class LibroService {
         libro.setEjemplares(ejemplares);
         libro.setEjemplaresPrestados(ejemplaresPrestados);
         libro.setEjemplaresRestantes(ejemplares - ejemplaresPrestados);
-        libro.setAutor(autorServicio.buscarPorId(idAutor));
-        libro.setEditorial(editorialServicio.buscarPorId(idEditorial));
+        libro.setAutor(autor);
+        libro.setEditorial(editorial);
         libroRepositorio.save(libro);
     }
+
+
+
 
     public void validarLibro(Long isbn, Integer anio, Integer ejemplares, Integer ejemplaresPrestados) throws ExcepcionService{
         Validacion.validarTamanioIsbn(isbn);

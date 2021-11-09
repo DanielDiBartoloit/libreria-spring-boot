@@ -1,14 +1,12 @@
 package edu.egg.libreriaspringboot.service;
 
 import edu.egg.libreriaspringboot.entity.Autor;
-
 import edu.egg.libreriaspringboot.exception.ExcepcionService;
 import edu.egg.libreriaspringboot.repository.AutorRepositorio;
 import edu.egg.libreriaspringboot.utilities.Validacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +31,6 @@ public class AutorService {
         autor.setAlta(true);
         repositorio.save(autor);
     }
-
 
     @Transactional
     public void validarAutor(String nombre) throws ExcepcionService {
@@ -73,6 +70,9 @@ public class AutorService {
         repositorio.habilitarAutor(id);
     }
 }
+
+
+
 
 
 

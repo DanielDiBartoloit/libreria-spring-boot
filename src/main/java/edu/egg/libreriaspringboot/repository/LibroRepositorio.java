@@ -28,4 +28,6 @@ public interface LibroRepositorio extends JpaRepository<Libro, Integer> {
 
     @Query(value="SELECT l FROM Libro l WHERE l.isbn = :isbn")
     Optional<Libro> buscarLibroPorIsbn(@Param("isbn") Long isbn);
+
+    boolean existsByIsbn(Long isbn);
 }
