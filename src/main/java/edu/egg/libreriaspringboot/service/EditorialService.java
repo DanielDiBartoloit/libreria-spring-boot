@@ -37,7 +37,7 @@ public class EditorialService {
     @Transactional
     public void validarEditorial(String nombre) throws ExcepcionService {
 
-        Optional <Editorial> nombreEditorial = repositorio.buscarEditorialPorNombre(nombre);
+        Optional <Editorial> nombreEditorial = repositorio.findByNombre(nombre);
         if (nombreEditorial.isPresent()){
             throw new ExcepcionService("La editorial ya se encuentra registrada");
         }
@@ -65,7 +65,12 @@ public class EditorialService {
     public void modificarEditorial(Integer id, String nombre) throws ExcepcionService {
 
         validarEditorial(nombre);
-        repositorio.modificarNombreEditorial(id, nombre);
+
+        Editorial editorial = repositorio.findById(id).get(); //te devuelve un optional
+        editorial.setNombre(nombre);
+        repositorio.save(editorial);
+
+        //repositorio.modificarNombreEditorial(id, nombre);
     }
 
     @Transactional

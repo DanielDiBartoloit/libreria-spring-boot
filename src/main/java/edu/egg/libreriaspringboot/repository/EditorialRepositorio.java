@@ -29,4 +29,6 @@ public interface EditorialRepositorio extends JpaRepository<Editorial,Integer> {
     @Query(value = "SELECT e FROM Editorial e WHERE e.nombre = :nombre")
     Optional<Editorial> buscarEditorialPorNombre(@Param("nombre") String nombre);
 
+    Optional<Editorial> findByNombre(String nombre);
+
 }

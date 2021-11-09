@@ -58,18 +58,24 @@ public class AutorService {
 
     @Transactional
     public void modificarAutor(Integer id, String nombre) throws ExcepcionService {
+
         validarAutor(nombre);
-        repositorio.modificarNombreAutor(id, nombre);
+
+        Autor autor = repositorio.getById(id);
+        autor.setNombre(nombre);
+        repositorio.save(autor);
+
+        //repositorio.modificarNombreAutor(id, nombre);
     }
 
     @Transactional
     public void habilitarAutor(Integer id) {
         repositorio.habilitarAutor(id);
     }
-
-
-
 }
+
+
+
 
 
 

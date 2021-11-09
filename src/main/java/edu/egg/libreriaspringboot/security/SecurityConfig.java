@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/signup", "/registro", "/css/*", "/img/*").permitAll()
-                .antMatchers("/**").authenticated()
+                .antMatchers("/**").authenticated() //.permitAl() para poder usar sin login
                 .and()
                 .formLogin()
                 .loginPage("/login")
