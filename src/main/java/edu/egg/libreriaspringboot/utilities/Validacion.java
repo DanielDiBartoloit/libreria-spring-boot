@@ -7,25 +7,25 @@ import java.time.LocalDate;
 public class Validacion {
 
     public static void validarEspacioVacio(String nombre) throws ExcepcionService{
-        if(nombre.trim().isEmpty()){
+        if(nombre.trim().isEmpty() || nombre == null){
             throw new ExcepcionService("El nombre no puede estar vacío");
         }
     }
 
     public static void validarEspacioVacioUsuario(String nombre, String apellido, String correo, String clave) throws ExcepcionService{
-        if(nombre.trim().isEmpty()){
+        if(nombre.trim().isEmpty() || nombre == null){
             throw new ExcepcionService("El nombre no puede estar vacío");
         }
 
-        if ((apellido.trim().isEmpty())){
+        if (apellido.trim().isEmpty() || apellido == null){
             throw new ExcepcionService("El apellido no puede esta vacío");
         }
 
-        if ((correo.trim().isEmpty())){
+        if (correo.trim().isEmpty() || correo == null){
             throw new ExcepcionService("El correo no puede esta vacío");
         }
 
-        if ((clave.trim().isEmpty())){
+        if (clave.trim().isEmpty() || clave == null){
             throw new ExcepcionService("La clave no puede esta vacía");
         }
     }
@@ -39,14 +39,14 @@ public class Validacion {
     }
 
     public static void validarTamanioIsbn(Long isbn) throws ExcepcionService{
+        final Integer TAMANIO_LARGO_ISBN = 13;
+
         validarEspacioVacio(isbn.toString());
 
-        if(isbn.toString().length() != 13){
+        if(isbn.toString().length() != TAMANIO_LARGO_ISBN){
             throw new ExcepcionService("El ISBN debe contener 13 dígitos");
         }
     }
-
-
 
     public static void validarEjemplares(Integer ejemplares, Integer ejemplaresRestantes) throws ExcepcionService{
         validarEspacioVacio(ejemplares.toString());
@@ -69,12 +69,16 @@ public class Validacion {
         }
     }
 
-
-
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
