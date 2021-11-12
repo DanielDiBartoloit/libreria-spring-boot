@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.regex.Pattern;
 
 
 @Service
@@ -35,7 +36,8 @@ public class UsuarioService implements UserDetailsService {
             throw new ExcepcionService("Ya existe un usuario con el correo ingresado");
         }
 
-        Validacion.validarEspacioVacioUsuario(nombre,apellido,correo,clave);
+        validarUsuario(nombre, apellido, correo, clave);
+
 
         Usuario usuario = new Usuario();
 
@@ -48,8 +50,15 @@ public class UsuarioService implements UserDetailsService {
         usuarioRepository.save(usuario);
     }
 
+    public void validarUsuario(String nombre, String apellido, String correo, String clave) throws ExcepcionService {
 
+        Validacion.validarEspacioVacioUsuario(nombre,apellido,correo,clave);
 
+        Validacion.validarNombreSinNumeros(nombre, apellido);
+
+        Validacion.validarCorreo(correo);
+
+    }
 
     @Override
     public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
@@ -59,6 +68,14 @@ public class UsuarioService implements UserDetailsService {
         return new User(usuario.getCorreo(), usuario.getClave(), Collections.emptyList());
     }
 
+
+
+
 }
+
+
+
+
+
 
 
