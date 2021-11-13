@@ -1,5 +1,8 @@
 package edu.egg.libreriaspringboot.controller;
 
+import edu.egg.libreriaspringboot.entity.Rol;
+import edu.egg.libreriaspringboot.entity.Usuario;
+import edu.egg.libreriaspringboot.service.RolService;
 import edu.egg.libreriaspringboot.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,52 +24,41 @@ public class UsuarioControlador {
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("/login")
-    public ModelAndView login(@RequestParam(required = false) String error, @RequestParam(required = false) String logout, Principal principal) {
-        ModelAndView modelAndView = new ModelAndView("login");
+    @Autowired
+    private RolService rolService;
 
-        if (error != null) {
-            modelAndView.addObject("error", "Correo o contraseña inválida");
-        }
-
-        if (logout != null) {
-            modelAndView.addObject("logout", "Ha salido correctamente de la plataforma");
-        }
-
-        if (principal != null) {
-            modelAndView.setViewName("redirect:/");
-        }
-
-        return modelAndView;
-    }
 
     @GetMapping("/signup")
     public ModelAndView signup(HttpServletRequest request, Principal principal) {
-        ModelAndView modelAndView = new ModelAndView("signup");
+        ModelAndView mav = new ModelAndView("signup");
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
 
         if (flashMap != null) {
-            modelAndView.addObject("exito", flashMap.get("exito"));
-            modelAndView.addObject("error", flashMap.get("error"));
-            modelAndView.addObject("nombre", flashMap.get("nombre"));
-            modelAndView.addObject("apellido", flashMap.get("apellido"));
-            modelAndView.addObject("correo", flashMap.get("correo"));
-            modelAndView.addObject("clave", flashMap.get("clave"));
+            mav.addObject("exito", flashMap.get("exito"));
+            mav.addObject("error", flashMap.get("error"));
+            mav.addObject("nombre", flashMap.get("nombre"));
+            mav.addObject("apellido", flashMap.get("apellido"));
+            mav.addObject("correo", flashMap.get("correo"));
+            mav.addObject("clave", flashMap.get("clave"));
         }
 
         if (principal != null) {
-            modelAndView.setViewName("redirect:/");
+            mav.setViewName("redirect:/");
         }
 
-        return modelAndView;
+        mav.addObject("usuario", new Usuario());
+        mav.addObject("roles", rolService.buscarTodos());
+
+        return mav;
     }
 
     @PostMapping("/registro")
-    public RedirectView signup(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String correo, @RequestParam String clave, RedirectAttributes attributes) {
+    public RedirectView registro(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String correo, @RequestParam String clave, @RequestParam Rol rol, RedirectAttributes attributes) {
         RedirectView rv = new RedirectView("/login");
 
         try {
-            usuarioService.crear(nombre, apellido, correo, clave);
+            //Rol rol = rolService.buscarRolId(rolId);
+            usuarioService.crear(nombre, apellido, correo, clave, rol);
             attributes.addFlashAttribute("exito", "El registro ha sido realizado satisfactoriamente");
 
         } catch (Exception e) {
@@ -81,4 +73,11 @@ public class UsuarioControlador {
 
         return rv;
     }
+
 }
+
+
+
+
+
+

@@ -1,5 +1,6 @@
 package edu.egg.libreriaspringboot.service;
 
+import edu.egg.libreriaspringboot.entity.Rol;
 import edu.egg.libreriaspringboot.entity.Usuario;
 import edu.egg.libreriaspringboot.exception.ExcepcionService;
 import edu.egg.libreriaspringboot.repository.UsuarioRepositorio;
@@ -31,7 +32,7 @@ public class UsuarioService implements UserDetailsService {
     private final String MENSAJE = "El username ingresado no existe %s";
 
     @Transactional
-    public void crear(String nombre, String apellido, String correo, String clave) throws ExcepcionService {
+    public void crear(String nombre, String apellido, String correo, String clave, Rol rol) throws ExcepcionService {
         if (usuarioRepository.existsByCorreo(correo)) {
             throw new ExcepcionService("Ya existe un usuario con el correo ingresado");
         }
@@ -45,6 +46,7 @@ public class UsuarioService implements UserDetailsService {
         usuario.setApellido(apellido);
         usuario.setCorreo(correo);
         usuario.setClave(encoder.encode(clave)); // Encriptación de clave
+        usuario.setRol(rol);
         usuario.setAlta(true);
 
         usuarioRepository.save(usuario);
@@ -68,10 +70,12 @@ public class UsuarioService implements UserDetailsService {
         return new User(usuario.getCorreo(), usuario.getClave(), Collections.emptyList());
     }
 
-
-
-
 }
+
+
+
+
+
 
 
 

@@ -31,4 +31,10 @@ public class RolService {
         return repositorioRol.findAll();
     }
 
+
+    @Transactional(readOnly = true)
+    public Rol buscarRolId (Integer id){
+        return repositorioRol.findById(id).orElse(null);
+    }
+
 }
