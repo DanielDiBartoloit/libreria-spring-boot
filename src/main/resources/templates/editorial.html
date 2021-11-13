@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
-    <meta content="Página de ejemplo de Spring Boot + Thymeleaf para el curso de Egg" name="description"/>
+    <meta content="CRUD Spring Boot + Thymeleaf para el curso de Egg" name="description"/>
     <meta content="Daniel Di Bartolo" name="author"/>
     <title>📚 Lista Editoriales - Librería SBoot</title>
     <!-- FONT -->
@@ -24,7 +24,7 @@
     <div class="alert alert-success" th:if="${exitoEditorialCreada != null}" th:text="${exitoEditorialCreada}"></div>
     <div class="alert alert-success" th:if="${exitoEditorialModificada != null}" th:text="${exitoEditorialModificada}"></div>
 
-    <a class="btn btn-success active mb-2" th:href="@{/editoriales/crear}" role="button">Crear Editorial</a>
+    <a class="btn btn-success active mb-2" th:href="@{/editoriales/crear}" sec:authorize="hasRole('ADMIN')" role="button">Crear Editorial</a>
     <div class="input-group mb-3">
 
         <div class="input-group-append">
@@ -46,10 +46,10 @@
                 <tr>
                     <th class="col-2" scope="col">ID</th>
                     <th class="col-2" scope="col">Nombre</th>
-                    <th class="col-2" scope="col">Creación</th>
-                    <th class="col-2" scope="col">Modificación</th>
-                    <th class="col-1" scope="col">Alta</th>
-                    <th class="col-3" scope="col">Acciones</th>
+                    <th class="col-2" scope="col" sec:authorize="hasRole('ADMIN')">Creación</th>
+                    <th class="col-2" scope="col" sec:authorize="hasRole('ADMIN')">Modificación</th>
+                    <th class="col-1" scope="col" sec:authorize="hasRole('ADMIN')">Alta</th>
+                    <th class="col-3" scope="col" sec:authorize="hasRole('ADMIN')">Acciones</th>
                 </tr>
             </thead>
 
@@ -57,11 +57,11 @@
                 <tr th:each="editorial : ${editoriales}" th:class=" ${editorial.alta ? 'text-dark' : 'text-muted'}">
                     <td class="col-md-3 px-md-2 text-center" th:text="${editorial.id}"></td>
                     <td class="col-md-3 px-md-2 text-center text-uppercase" th:text="${editorial.nombre}"></td>
-                    <td class="col-md-3 px-md-2 text-center" th:text="${#temporals.format(editorial.fechaCreacion, 'dd-MM-yyyy HH:mm')}"></td>
-                    <td class="col-md-3 px-md-2 text-center" th:text="${#temporals.format(editorial.fechaModificacion, 'dd-MM-yyyy HH:mm')}"></td>
-                    <td class="col-md-3 px-md-2 text-center" th:text="${editorial.alta}"></td>
+                    <td class="col-md-3 px-md-2 text-center" th:text="${#temporals.format(editorial.fechaCreacion, 'dd-MM-yyyy HH:mm')}" sec:authorize="hasRole('ADMIN')"></td>
+                    <td class="col-md-3 px-md-2 text-center" th:text="${#temporals.format(editorial.fechaModificacion, 'dd-MM-yyyy HH:mm')}" sec:authorize="hasRole('ADMIN')"></td>
+                    <td class="col-md-3 px-md-2 text-center" th:text="${editorial.alta}" sec:authorize="hasRole('ADMIN')"></td>
 
-                    <td class="col-md-3 px-md-2 d-flex justify-content-around align-items-center w-100">
+                    <td class="col-md-3 px-md-2 d-flex justify-content-around align-items-center w-100" sec:authorize="hasRole('ADMIN')">
                         <a class="d-flex btn btn-secondary btn-sm m-2 align-items-center" th:href="@{/editoriales/editar/__${editorial.id}__}"> <i class="fas fa-edit me-1"></i>Editar</a>
                         <form method="post"
                               th:action="${editorial.alta} ? @{/editoriales/eliminar/__${editorial.id}__} : @{/editoriales/habilitar/__${editorial.id}__}">

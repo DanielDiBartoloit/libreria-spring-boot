@@ -5,6 +5,7 @@ import edu.egg.libreriaspringboot.entity.Usuario;
 import edu.egg.libreriaspringboot.service.RolService;
 import edu.egg.libreriaspringboot.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,7 +54,8 @@ public class UsuarioControlador {
     }
 
     @PostMapping("/registro")
-    public RedirectView registro(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String correo, @RequestParam String clave, @RequestParam Rol rol, RedirectAttributes attributes) {
+    // @PreAuthorize("hasRole('ADMIN')") // modificar porque sino no se puede registrar
+    public RedirectView crear(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String correo, @RequestParam String clave, @RequestParam Rol rol, RedirectAttributes attributes) {
         RedirectView rv = new RedirectView("/login");
 
         try {

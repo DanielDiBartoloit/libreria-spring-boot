@@ -8,6 +8,8 @@ import edu.egg.libreriaspringboot.repository.UsuarioRepositorio;
 import edu.egg.libreriaspringboot.utilities.Validacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -67,7 +69,9 @@ public class UsuarioService implements UserDetailsService {
         Usuario usuario = usuarioRepository.findByCorreo(correo)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(MENSAJE, correo)));
 
-        return new User(usuario.getCorreo(), usuario.getClave(), Collections.emptyList());
+        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().getNombre());
+
+        return new User(usuario.getCorreo(), usuario.getClave(), Collections.singletonList(authority));
     }
 
 }
