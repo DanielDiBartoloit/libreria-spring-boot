@@ -42,7 +42,14 @@ public class Usuario {
     private LocalDateTime modificacion;
 
     private Boolean alta;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Rol rol;
+
+
 }
+
 
 
 
