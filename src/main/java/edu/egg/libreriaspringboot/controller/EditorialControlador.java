@@ -87,8 +87,8 @@ public class EditorialControlador {
 
     @GetMapping("/buscar")
     public ModelAndView buscarEditorial(@RequestParam String keyword){
-        ModelAndView mav = new ModelAndView("autor");
-        mav.addObject("autores", servicioEditorial.buscarPorNombre(keyword));
+        ModelAndView mav = new ModelAndView("editorial");
+        mav.addObject("editoriales", servicioEditorial.buscarPorNombre(keyword));
         return mav;
     }
 

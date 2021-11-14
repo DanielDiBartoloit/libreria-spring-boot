@@ -54,7 +54,7 @@ public class UsuarioControlador {
     }
 
     @PostMapping("/registro")
-    // @PreAuthorize("hasRole('ADMIN')") // modificar porque sino no se puede registrar
+    //@PreAuthorize("hasRole('ADMIN')") // modificar porque sino no se puede registrar
     public RedirectView crear(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String correo, @RequestParam String clave, @RequestParam Rol rol, RedirectAttributes attributes) {
         RedirectView rv = new RedirectView("/login");
 

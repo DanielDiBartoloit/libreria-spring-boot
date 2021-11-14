@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <!--Navbar-->
 <nav th:fragment="navbar" class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
@@ -23,7 +23,7 @@
                             <a class="dropdown-item" th:href="@{/libros/todos}">Mostrar todos</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" th:href="@{/libros/crear}">Crear libro</a>
+                            <a class="dropdown-item" th:href="@{/libros/crear}" sec:authorize="hasRole('ADMIN')">Crear libro</a>
                         </li>
                     </ul>
                 </li>
@@ -39,7 +39,7 @@
                             <a class="dropdown-item" th:href="@{/autores/todos}">Mostrar todos</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" th:href="@{/autores/crear}">Crear autor</a>
+                            <a class="dropdown-item" th:href="@{/autores/crear}" sec:authorize="hasRole('ADMIN')">Crear autor</a>
                         </li>
                     </ul>
                 </li>
@@ -54,7 +54,7 @@
                     <ul aria-labelledby="dropdown-mascotas" class="dropdown-menu dropdown-menu-dark">
                         <li><a class="dropdown-item" th:href="@{/editoriales/todos}">Mostrar todas</a></li>
                         <li>
-                            <a class="dropdown-item" th:href="@{/editoriales/crear}">Crear editorial</a>
+                            <a class="dropdown-item" th:href="@{/editoriales/crear}" sec:authorize="hasRole('ADMIN')">Crear editorial</a>
                         </li>
                     </ul>
                 </li>

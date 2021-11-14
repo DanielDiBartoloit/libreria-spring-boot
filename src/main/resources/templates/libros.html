@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -24,7 +24,7 @@
     <div class="alert alert-success" th:if="${exitoLibroCreado != null}" th:text="${exitoLibroCreado}"></div>
     <div class="alert alert-success" th:if="${exitoLibroModificado != null}" th:text="${exitoLibroModificado}"></div>
 
-    <a class="btn btn-success active mb-2" th:href="@{/libros/crear}" role="button">Crear Libro</a>
+    <a class="btn btn-success active mb-2" th:href="@{/libros/crear}" role="button" sec:authorize="hasRole('ADMIN')">Crear Libro</a>
     <div class="input-group mb-3">
 
         <div class="input-group-append">
@@ -46,25 +46,27 @@
             <tr>
                 <th class="col-md-4 px-md-2" scope="col">ISBN</th>
                 <th class="col-md-4 px-md-2" scope="col">Título</th>
-                <th class="col-md-4 px-md-2" scope="col">Ejemplares totales</th>
-                <th class="col-md-4 px-md-2" scope="col">Ejemplares prestados</th>
-                <th class="col-md-4 px-md-2" scope="col">Ejemplares restantes</th>
+                <th class="col-md-4 px-md-2" scope="col" sec:authorize="hasRole('ADMIN')">Ejemplares totales</th>
+                <th class="col-md-4 px-md-2" scope="col" sec:authorize="hasRole('ADMIN')">Ejemplares prestados</th>
+                <th class="col-md-4 px-md-2" scope="col" sec:authorize="hasRole('ADMIN')">Ejemplares restantes</th>
+                <th class="col-md-4 px-md-2" scope="col" sec:authorize="hasRole('CLIENTE')">Año</th>
                 <th class="col-md-4 px-md-2" scope="col">Autor</th>
                 <th class="col-md-4 px-md-2" scope="col">Editorial</th>
-                <th class="col-md-4 px-md-2" scope="col">Acciones</th>
+                <th class="col-md-4 px-md-2" scope="col" sec:authorize="hasRole('ADMIN')">Acciones</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="libro : ${libros}" th:class=" ${libro.alta ? 'text-dark' : 'text-muted'}">
                 <td class="col-md-3 px-md-2 text-center" th:text="${libro.isbn}"></td>
                 <td class="col-md-3 px-md-2 text-center text-uppercase" th:text="${libro.titulo}"></td>
-                <td class="col-md-3 px-md-2 text-center" th:text="${libro.ejemplares}"></td>
-                <td class="col-md-3 px-md-2 text-center" th:text="${libro.ejemplaresPrestados}"></td>
-                <td class="col-md-3 px-md-2 text-center" th:text="${libro.ejemplaresRestantes}"></td>
+                <td class="col-md-3 px-md-2 text-center" th:text="${libro.ejemplares}" sec:authorize="hasRole('ADMIN')"></td>
+                <td class="col-md-3 px-md-2 text-center" th:text="${libro.ejemplaresPrestados}" sec:authorize="hasRole('ADMIN')"></td>
+                <td class="col-md-3 px-md-2 text-center" th:text="${libro.ejemplaresRestantes}" sec:authorize="hasRole('ADMIN')"></td>
+                <td class="col-md-3 px-md-2 text-center" th:text="${libro.anio}" sec:authorize="hasRole('CLIENTE')"></td>
                 <td class="col-md-3 px-md-2 text-center text-uppercase" th:text="${libro.autor.nombre}"></td>
                 <td class="col-md-3 px-md-2 text-center text-uppercase" th:text="${libro.editorial.nombre}"></td>
 
-                <td class="col-md-3 px-md-2 d-flex justify-content-around align-items-center w-100">
+                <td class="col-md-3 px-md-2 d-flex justify-content-around align-items-center w-100" sec:authorize="hasRole('ADMIN')">
                     <a class="d-flex btn btn-secondary btn-sm m-2 align-items-center" th:href="@{/libros/editar/__${libro.id}__}"> <i class="fas fa-edit me-1"></i>Editar</a>
                     <form method="post"
                           th:action="${libro.alta} ? @{/libros/eliminar/__${libro.id}__} : @{/libros/habilitar/__${libro.id}__}">
@@ -84,7 +86,7 @@
 
 
 <!-- Footer -->
-<div th:class="${libros.isEmpty() ? 'fixed-bottom' : 'sticky-bottom'}">
+<div th:class="${libros.size() < 5 ? 'fixed-bottom' : 'sticky-bottom'}">
     <footer th:replace="fragmentos :: footer"></footer>
 </div>
 

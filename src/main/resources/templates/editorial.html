@@ -46,7 +46,7 @@
                 <tr>
                     <th class="col-2" scope="col">ID</th>
                     <th class="col-2" scope="col">Nombre</th>
-                    <th class="col-2" scope="col" sec:authorize="hasRole('ADMIN')">Creación</th>
+                    <th class="col-2" scope="col" sec:authorize="hasAnyRole('ADMIN','SUPERADMIN')">Creación</th> <!-- PREGUNTAR MAS DE UN ROL-->
                     <th class="col-2" scope="col" sec:authorize="hasRole('ADMIN')">Modificación</th>
                     <th class="col-1" scope="col" sec:authorize="hasRole('ADMIN')">Alta</th>
                     <th class="col-3" scope="col" sec:authorize="hasRole('ADMIN')">Acciones</th>
@@ -76,7 +76,7 @@
 </div>
 
 <!-- Footer -->
-<div th:class="${editoriales.isEmpty() ? 'fixed-bottom' : 'sticky-bottom'}">
+<div th:class="${editoriales.size() < 8 ? 'fixed-bottom' : 'sticky-bottom'}">
     <footer th:replace="fragmentos :: footer"></footer>
 </div>
 <!-- JavaScript -->

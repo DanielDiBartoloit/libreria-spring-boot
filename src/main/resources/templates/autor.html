@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -22,7 +22,7 @@
     <h1>Listado de autores</h1>
     <hr class="mb-4"/>
     <div class="alert alert-success" th:if="${exitoAutor != null}" th:text="${exitoAutor}"></div>
-    <a class="btn btn-success active mb-2" th:href="@{/autores/crear}" role="button">Crear Autor</a>
+    <a class="btn btn-success active mb-2" th:href="@{/autores/crear}" role="button" sec:authorize="hasRole('ADMIN')">Crear Autor</a>
     <div class="input-group mb-3">
 
         <div class="input-group-append">
@@ -44,21 +44,21 @@
                 <tr>
                     <th class="col-2" scope="col">ID</th>
                     <th class="col-2" scope="col">Nombre</th>
-                    <th class="col-2" scope="col">Creación</th>
-                    <th class="col-2" scope="col">Modificación</th>
-                    <th class="col-1" scope="col">Alta</th>
-                    <th class="col-3" scope="col">Acciones</th>
+                    <th class="col-2" scope="col" sec:authorize="hasRole('ADMIN')">Creación</th>
+                    <th class="col-2" scope="col" sec:authorize="hasRole('ADMIN')">Modificación</th>
+                    <th class="col-1" scope="col" sec:authorize="hasRole('ADMIN')">Alta</th>
+                    <th class="col-3" scope="col" sec:authorize="hasRole('ADMIN')">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="autor : ${autores}" th:class=" ${autor.alta ? 'text-dark' : 'text-muted'}">
                     <td class="col-md-3 px-md-2 text-center" th:text="${autor.id}"></td>
                     <td class="col-md-3 px-md-2 text-center text-uppercase" th:text="${autor.nombre}"></td>
-                    <td class="col-md-3 px-md-2 text-center" th:text="${#temporals.format(autor.fechaCreacion, 'dd-MM-yyyy HH:mm')}"></td>
-                    <td class="col-md-3 px-md-2 text-center" th:text="${#temporals.format(autor.fechaModificacion, 'dd-MM-yyyy HH:mm')}"></td>
-                    <td class="col-md-3 px-md-2 text-center" th:text="${autor.alta}"></td>
+                    <td class="col-md-3 px-md-2 text-center" th:text="${#temporals.format(autor.fechaCreacion, 'dd-MM-yyyy HH:mm')}" sec:authorize="hasRole('ADMIN')"></td>
+                    <td class="col-md-3 px-md-2 text-center" th:text="${#temporals.format(autor.fechaModificacion, 'dd-MM-yyyy HH:mm')}" sec:authorize="hasRole('ADMIN')"></td>
+                    <td class="col-md-3 px-md-2 text-center" th:text="${autor.alta}" sec:authorize="hasRole('ADMIN')"></td>
 
-                    <td class="col-md-3 px-md-2 d-flex justify-content-around align-items-center w-100">
+                    <td class="col-md-3 px-md-2 d-flex justify-content-around align-items-center w-100" sec:authorize="hasRole('ADMIN')">
                         <a class="d-flex btn btn-secondary btn-sm m-2 align-items-center" th:href="@{/autores/editar/__${autor.id}__}"> <i class="fas fa-edit me-1"></i>Editar</a>
                         <form method="post"
                               th:action="${autor.alta} ? @{/autores/eliminar/__${autor.id}__} : @{/autores/habilitar/__${autor.id}__}">
@@ -73,7 +73,7 @@
 </div>
 
 <!-- Footer -->
-<div th:class="${autores.isEmpty() ? 'fixed-bottom' : 'sticky-bottom'}">
+<div th:class="${autores.size() < 8 ? 'fixed-bottom' : 'sticky-bottom'}">
     <footer th:replace="fragmentos :: footer"></footer>
 </div>
 
