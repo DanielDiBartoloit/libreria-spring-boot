@@ -3,6 +3,7 @@ package edu.egg.libreriaspringboot.controller;
 import edu.egg.libreriaspringboot.entity.Autor;
 import edu.egg.libreriaspringboot.service.AutorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,7 +21,7 @@ public class AutorControlador {
     @Autowired
     private AutorService servicioAutor;
 
-    @GetMapping("todos")
+    @GetMapping("/todos")
     public ModelAndView mostrarAutores(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("autor");
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -34,6 +35,7 @@ public class AutorControlador {
     }
 
     @GetMapping("/crear")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView crearAutor(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("autor-formulario");
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -59,6 +61,7 @@ public class AutorControlador {
     }
 
     @PostMapping("/guardar")
+    @PreAuthorize("hasRole('ADMIN')")
     public RedirectView guardarAutor(@RequestParam String nombre, RedirectAttributes attributes) {
 
         RedirectView rv = new RedirectView("/autores/todos");
@@ -75,18 +78,21 @@ public class AutorControlador {
     }
 
     @PostMapping("/eliminar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public RedirectView eliminarAutor(@PathVariable Integer id) {
         servicioAutor.eliminarAutor(id);
         return new RedirectView("/autores/todos");
     }
 
     @PostMapping("/habilitar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public RedirectView habilitarAutor(@PathVariable Integer id) {
         servicioAutor.habilitarAutor(id);
         return new RedirectView("/autores/todos");
     }
 
     @GetMapping("/editar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView editarAutor(@PathVariable Integer id, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("autor-formulario");
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -105,6 +111,7 @@ public class AutorControlador {
     }
 
     @PostMapping("/modificar")
+    @PreAuthorize("hasRole('ADMIN')")
     public RedirectView modificarAutor(@RequestParam Integer id, @RequestParam String nombre, RedirectAttributes attributes) {
         RedirectView rv = new RedirectView("/autores/todos");
 

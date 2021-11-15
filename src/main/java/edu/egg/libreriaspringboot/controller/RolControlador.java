@@ -4,6 +4,7 @@ import edu.egg.libreriaspringboot.entity.Rol;
 import edu.egg.libreriaspringboot.exception.ExcepcionService;
 import edu.egg.libreriaspringboot.service.RolService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ public class RolControlador {
     private RolService servicioRol;
 
     @GetMapping("/crear")
+    //@PreAuthorize("hasRole('ADMIN')")
     public ModelAndView crear(){
         ModelAndView mav = new ModelAndView("rol-formulario");
         mav.addObject("titulo", "Formulario nuevo Rol");
@@ -31,6 +33,7 @@ public class RolControlador {
     }
 
     @PostMapping("/guardar")
+    //@PreAuthorize("hasRole('ADMIN')")
     public RedirectView guardar(@RequestParam String nombre, RedirectAttributes attributes){
         RedirectView rv = new RedirectView("/"); //modificar
 

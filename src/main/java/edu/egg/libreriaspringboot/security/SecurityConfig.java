@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/signup", "/registro", "/css/*", "/img/*").permitAll()
+                .antMatchers("/signup", "/registro", "/css/*", "/img/*","/assets/*").permitAll()
                 .antMatchers("/**").authenticated() //.permitAll() para poder usar sin login
                 .and()
                 .formLogin()

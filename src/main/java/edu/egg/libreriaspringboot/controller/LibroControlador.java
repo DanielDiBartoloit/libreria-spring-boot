@@ -8,6 +8,7 @@ import edu.egg.libreriaspringboot.service.AutorService;
 import edu.egg.libreriaspringboot.service.EditorialService;
 import edu.egg.libreriaspringboot.service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -49,6 +50,7 @@ public class LibroControlador {
 
 
     @GetMapping("/crear")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView crearLibro(HttpServletRequest request){
         ModelAndView mav = new ModelAndView("libro-formulario");
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -74,6 +76,7 @@ public class LibroControlador {
     }
 
     @PostMapping("/guardar")
+    @PreAuthorize("hasRole('ADMIN')")
     public RedirectView guardarLibro(@RequestParam Long isbn, @RequestParam String titulo, @RequestParam Integer anio, @RequestParam Integer ejemplares, @RequestParam Integer ejemplaresPrestados, @RequestParam Autor autor, @RequestParam("editorial") Editorial editorial, RedirectAttributes attributes){
         RedirectView rv = new RedirectView("/libros/todos");
 
@@ -94,12 +97,14 @@ public class LibroControlador {
     }
 
     @PostMapping("/eliminar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public RedirectView eliminarLibro(@PathVariable Integer id){
         servicioLibro.eliminarLibro(id);
         return new RedirectView("/libros/todos");
     }
 
     @PostMapping("/habilitar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public RedirectView habilitarLibro(@PathVariable Integer id){
         servicioLibro.habilitarLibro(id);
         return new RedirectView("/libros/todos");
@@ -113,6 +118,7 @@ public class LibroControlador {
     }
 
     @GetMapping("/editar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView editarLibro(@PathVariable Integer id, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("libro-formulario");
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -138,6 +144,7 @@ public class LibroControlador {
     }
 
     @PostMapping("/modificar")
+    @PreAuthorize("hasRole('ADMIN')")
     public RedirectView modificarLibro(@RequestParam Integer id, @RequestParam Long isbn, @RequestParam String titulo, @RequestParam Integer anio, @RequestParam Integer ejemplares, @RequestParam Integer ejemplaresPrestados, @RequestParam("autor") Integer autorId, @RequestParam("editorial") Integer editorialId, RedirectAttributes attributes){
         RedirectView rv = new RedirectView("/libros/todos");
 

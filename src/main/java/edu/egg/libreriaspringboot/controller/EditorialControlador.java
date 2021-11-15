@@ -3,6 +3,7 @@ package edu.egg.libreriaspringboot.controller;
 import edu.egg.libreriaspringboot.entity.Editorial;
 import edu.egg.libreriaspringboot.service.EditorialService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,6 +36,7 @@ public class EditorialControlador {
     }
 
     @GetMapping("/crear")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView crearEditorial(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("editorial-formulario");
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -55,6 +57,7 @@ public class EditorialControlador {
     }
 
     @PostMapping("/guardar")
+    @PreAuthorize("hasRole('ADMIN')")
     public RedirectView guardarEditorial(@RequestParam String nombre, RedirectAttributes attributes){
 
         RedirectView rv = new RedirectView("/editoriales/todos");
@@ -74,12 +77,14 @@ public class EditorialControlador {
     }
 
     @PostMapping("/eliminar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public RedirectView eliminarEditorial(@PathVariable Integer id){
         servicioEditorial.eliminarEditorial(id);
         return new RedirectView("/editoriales/todos");
     }
 
     @PostMapping("/habilitar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public RedirectView habilitarEditorial(@PathVariable Integer id){
         servicioEditorial.habilitarEditorial(id);
         return new RedirectView("/editoriales/todos");
@@ -93,6 +98,7 @@ public class EditorialControlador {
     }
 
     @GetMapping("/editar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView editarEditorial(@PathVariable Integer id, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("editorial-formulario");
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -112,6 +118,7 @@ public class EditorialControlador {
     }
 
     @PostMapping("/modificar")
+    @PreAuthorize("hasRole('ADMIN')")
     public RedirectView modificarEditorial(@RequestParam Integer id, @RequestParam String nombre, RedirectAttributes attributes){
         RedirectView rv = new RedirectView("/editoriales/todos");
 
@@ -128,9 +135,9 @@ public class EditorialControlador {
         return rv;
     }
 
-
-
 }
+
+
 
 
 
