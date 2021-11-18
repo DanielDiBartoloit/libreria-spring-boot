@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -19,46 +19,9 @@
 <!--Navbar-->
 <nav th:replace="fragmentos :: navbar"></nav>
 
-<h1 class="text-center mt-3" >Librería-Spring-Boot</h1>
-
-<div class="container mt-3 main">
-    <div class="card-group">
-        <div class="card m-2">
-            <img class="card-img-top" src="/img/creative-world-book-day-composition.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Libros</h5>
-                <p class="card-text">Consulte nuestra extensa selección de libros</p>
-                <a class="btn btn-dark active" th:href="@{/libros/todos}" role="button">Ingresar</a>
-
-
-            </div>
-        </div>
-        <div class="card m-2">
-            <img class="card-img-top" src="/img/fingers-note-report-journalist-filling.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Autores</h5>
-                <p class="card-text">Consulte todos los autores</p>
-                <a class="btn btn-dark active" th:href="@{/autores/todos}" role="button">Ingresar</a>
-
-            </div>
-        </div>
-        <div class="card m-2">
-            <img class="card-img-top" src="/img/creative-world-book-day-arrangement.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Editoriales</h5>
-                <p class="card-text">Todas las editoriales de nuestros libros</p>
-                <a class="btn btn-dark active" th:href="@{/editoriales/todos}" role="button">Ingresar</a>
-
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="container">
-    <div class="row">
-        <div class="col-12">
+    <div class="row mt-4">
 
-        </div>
         <div class="col-md-6 col-lg-4">
             <!-- Bootstrap 5 card box -->
             <div class="card-box">
@@ -142,3 +105,7 @@
 <script th:src="@{/assets/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
+
+
+
+

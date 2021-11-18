@@ -87,7 +87,7 @@
 
 
 <!-- Footer -->
-<div th:class="${libros.size() < 5 ? 'fixed-bottom' : 'sticky-bottom'}">
+<div th:class="${libros.size() <= 4 ? 'fixed-bottom' : 'sticky-bottom'}">
     <footer th:replace="fragmentos :: footer"></footer>
 </div>
 

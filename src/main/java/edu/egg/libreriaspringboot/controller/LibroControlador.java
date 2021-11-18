@@ -22,7 +22,7 @@ import java.util.Map;
 
 
 @Controller
-@RequestMapping("libros")
+@RequestMapping("/libros")
 public class LibroControlador {
 
     @Autowired

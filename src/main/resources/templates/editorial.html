@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
-    <meta content="CRUD Spring Boot + Thymeleaf para el curso de Egg" name="description"/>
+    <meta content="Página de ejemplo de Spring Boot + Thymeleaf para el curso de Egg" name="description"/>
     <meta content="Daniel Di Bartolo" name="author"/>
     <title>📚 Lista Editoriales - Librería SBoot</title>
     <!-- FONT -->
@@ -25,7 +25,7 @@
     <div class="alert alert-success" th:if="${exitoEditorialCreada != null}" th:text="${exitoEditorialCreada}"></div>
     <div class="alert alert-success" th:if="${exitoEditorialModificada != null}" th:text="${exitoEditorialModificada}"></div>
 
-    <a class="btn btn-success active mb-2" th:href="@{/editoriales/crear}" sec:authorize="hasRole('ADMIN')" role="button">Crear Editorial</a>
+    <a class="btn btn-success active mb-2" th:href="@{/editoriales/crear}" sec:authorize="hasRole('ADMIN')"role="button">Crear Editorial</a>
     <div class="input-group mb-3">
 
         <div class="input-group-append">
@@ -47,7 +47,7 @@
                 <tr>
                     <th class="col-2" scope="col">ID</th>
                     <th class="col-2" scope="col">Nombre</th>
-                    <th class="col-2" scope="col" sec:authorize="hasRole('ADMIN')">Creación</th> <!-- PREGUNTAR MAS DE UN ROL-->
+                    <th class="col-2" scope="col" sec:authorize="hasRole('ADMIN')">Creación</th> <!-- PREGUNTAR MAS DE UN ROL any-->
                     <th class="col-2" scope="col" sec:authorize="hasRole('ADMIN')">Modificación</th>
                     <th class="col-1" scope="col" sec:authorize="hasRole('ADMIN')">Alta</th>
                     <th class="col-3" scope="col" sec:authorize="hasRole('ADMIN')">Acciones</th>
@@ -77,9 +77,16 @@
 </div>
 
 <!-- Footer -->
-<div th:class="${editoriales.size() < 8 ? 'fixed-bottom' : 'sticky-bottom'}">
+<div th:class="${editoriales.size() < 8 ? 'fixed-bottom' : 'sticky-bottom'}" sec:authorize="hasRole('CLIENTE')">
     <footer th:replace="fragmentos :: footer"></footer>
 </div>
+
+<div th:class="${editoriales.size() < 7 ? 'fixed-bottom' : 'sticky-bottom'}" sec:authorize="hasRole('ADMIN')">
+    <footer th:replace="fragmentos :: footer"></footer>
+</div>
+
+
+
 <!-- JavaScript -->
 <script th:src="@{/assets/bootstrap.bundle.min.js}"></script>
 

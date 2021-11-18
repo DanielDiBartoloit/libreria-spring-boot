@@ -14,19 +14,21 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
+
 @Controller
-@RequestMapping("editoriales")
+@RequestMapping("/editoriales")
 public class EditorialControlador {
 
     @Autowired
     private EditorialService servicioEditorial;
 
+
     @GetMapping("/todos")
-    private ModelAndView mostrarEditoriales(HttpServletRequest request){
+    public ModelAndView mostrarEditoriales(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("editorial");
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
 
-        if (flashMap != null){
+        if (flashMap != null) {
             mav.addObject("exitoEditorialCreada", flashMap.get("exito-editorial-creada"));
             mav.addObject("exitoEditorialModificada", flashMap.get("exito-editorial-modificada"));
         }
@@ -34,6 +36,7 @@ public class EditorialControlador {
         mav.addObject("editoriales", servicioEditorial.obtenerEditoriales());
         return mav;
     }
+
 
     @GetMapping("/crear")
     @PreAuthorize("hasRole('ADMIN')")
@@ -45,7 +48,7 @@ public class EditorialControlador {
 
         // Si hay errores, inserto el atributo que ya escribió (si hay error es porque hay que castear)
 
-        if (flashMap != null){
+        if (flashMap != null) {
             editorial.setNombre((String) flashMap.get("nombre-editorial"));
             mav.addObject("errorEditorialCreada", flashMap.get("error-editorial-creada"));
         }
@@ -58,16 +61,16 @@ public class EditorialControlador {
 
     @PostMapping("/guardar")
     @PreAuthorize("hasRole('ADMIN')")
-    public RedirectView guardarEditorial(@RequestParam String nombre, RedirectAttributes attributes){
+    public RedirectView guardarEditorial(@RequestParam String nombre, RedirectAttributes attributes) {
 
         RedirectView rv = new RedirectView("/editoriales/todos");
 
-        try{
+        try {
             servicioEditorial.crear(nombre);
 
             attributes.addFlashAttribute("exito-editorial-creada", "Editorial creada exitosamente");
 
-        }catch (Exception e){
+        } catch (Exception e) {
             attributes.addFlashAttribute("error-editorial-creada", e.getMessage());
             attributes.addFlashAttribute("nombre-editorial", nombre);
 
@@ -78,34 +81,36 @@ public class EditorialControlador {
 
     @PostMapping("/eliminar/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public RedirectView eliminarEditorial(@PathVariable Integer id){
+    public RedirectView eliminarEditorial(@PathVariable Integer id) {
         servicioEditorial.eliminarEditorial(id);
         return new RedirectView("/editoriales/todos");
     }
 
+
     @PostMapping("/habilitar/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public RedirectView habilitarEditorial(@PathVariable Integer id){
+    public RedirectView habilitarEditorial(@PathVariable Integer id) {
         servicioEditorial.habilitarEditorial(id);
         return new RedirectView("/editoriales/todos");
     }
 
     @GetMapping("/buscar")
-    public ModelAndView buscarEditorial(@RequestParam String keyword){
+    public ModelAndView buscarEditorial(@RequestParam String keyword) {
         ModelAndView mav = new ModelAndView("editorial");
         mav.addObject("editoriales", servicioEditorial.buscarPorNombre(keyword));
         return mav;
     }
 
+
     @GetMapping("/editar/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView editarEditorial(@PathVariable Integer id, HttpServletRequest request){
+    public ModelAndView editarEditorial(@PathVariable Integer id, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("editorial-formulario");
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
 
         Editorial editorial = servicioEditorial.buscarPorId(id);
 
-        if (flashMap != null){
+        if (flashMap != null) {
             editorial.setNombre((String) flashMap.get("nombre-editorial"));
             mav.addObject("errorEditorialCreada", flashMap.get("error-editorial-creada"));
         }
@@ -117,15 +122,16 @@ public class EditorialControlador {
         return mav;
     }
 
+
     @PostMapping("/modificar")
     @PreAuthorize("hasRole('ADMIN')")
-    public RedirectView modificarEditorial(@RequestParam Integer id, @RequestParam String nombre, RedirectAttributes attributes){
+    public RedirectView modificarEditorial(@RequestParam Integer id, @RequestParam String nombre, RedirectAttributes attributes) {
         RedirectView rv = new RedirectView("/editoriales/todos");
 
-        try{
+        try {
             servicioEditorial.modificarEditorial(id, nombre);
             attributes.addFlashAttribute("exito-editorial-modificada", "Editorial modificada exitosamente");
-        }catch (Exception e){
+        } catch (Exception e) {
             attributes.addFlashAttribute("error-editorial-creada", e.getMessage());
             attributes.addFlashAttribute("nombre-editorial", nombre);
 
@@ -136,6 +142,11 @@ public class EditorialControlador {
     }
 
 }
+
+
+
+
+
 
 
 

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Controller
-@RequestMapping("autores")
+@RequestMapping("/autores")
 public class AutorControlador {
 
     @Autowired
