@@ -32,7 +32,7 @@ public class LibroControlador {
     @Autowired
     private EditorialService servicioEditorial;
 
-    @GetMapping("todos")
+    @GetMapping("/todos")
     public ModelAndView mostrarLibros(HttpServletRequest request){
         ModelAndView mav = new ModelAndView("libros");
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -161,6 +161,17 @@ public class LibroControlador {
             rv.setUrl("/libros/editar/" + id);
         }
         return rv;
+    }
+
+    @GetMapping("/ficha/{id}")
+
+    public ModelAndView mostrarFichaLibro(@PathVariable Integer id){
+        ModelAndView mav = new ModelAndView("libro-ficha");
+
+        mav.addObject("libro", servicioLibro.buscarPorId(id));
+
+        return mav;
+
     }
 }
 

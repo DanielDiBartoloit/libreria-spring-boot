@@ -53,7 +53,7 @@
                 <th class="col-md-4 px-md-2" scope="col" sec:authorize="hasRole('CLIENTE')">Año</th>
                 <th class="col-md-4 px-md-2" scope="col">Autor</th>
                 <th class="col-md-4 px-md-2" scope="col">Editorial</th>
-                <th class="col-md-4 px-md-2" scope="col" sec:authorize="hasRole('ADMIN')">Acciones</th>
+                <th class="col-md-4 px-md-2" scope="col">Acciones</th>
             </tr>
             </thead>
             <tbody>
@@ -67,10 +67,11 @@
                 <td class="col-md-3 px-md-2 text-center text-uppercase" th:text="${libro.autor.nombre}"></td>
                 <td class="col-md-3 px-md-2 text-center text-uppercase" th:text="${libro.editorial.nombre}"></td>
 
-                <td class="col-md-3 px-md-2 d-flex justify-content-around align-items-center w-100" sec:authorize="hasRole('ADMIN')">
-                    <a class="d-flex btn btn-secondary btn-sm m-2 align-items-center" th:href="@{/libros/editar/__${libro.id}__}"> <i class="fas fa-edit me-1"></i>Editar</a>
+                <td class="col-md-3 px-md-2 d-flex justify-content-around align-items-center w-100">
+                    <a class="d-flex btn btn-warning btn-sm  align-items-center" th:href="@{/libros/ficha/__${libro.id}__}" > <i class="fas fa-edit me-1"></i>Ficha</a>
+                    <a class="d-flex btn btn-secondary btn-sm m-2 align-items-center" th:href="@{/libros/editar/__${libro.id}__}" sec:authorize="hasRole('ADMIN')"> <i class="fas fa-edit me-1"></i>Editar</a>
                     <form method="post"
-                          th:action="${libro.alta} ? @{/libros/eliminar/__${libro.id}__} : @{/libros/habilitar/__${libro.id}__}">
+                          th:action="${libro.alta} ? @{/libros/eliminar/__${libro.id}__} : @{/libros/habilitar/__${libro.id}__}" sec:authorize="hasRole('ADMIN')">
                         <button th:class="${libro.alta} ? 'btn btn-danger btn-sm' : 'btn btn-primary btn-sm'"
                                 type="submit"> <div class="d-flex justify-content-around align-items-center"> <i th:class="${libro.alta} ? 'fas fa-trash me-2' : 'fas fa-trash-restore me-1'"></i> <span th:text="${libro.alta} ? 'Eliminar' : 'Habilitar'"></span></div></button>
                     </form>
