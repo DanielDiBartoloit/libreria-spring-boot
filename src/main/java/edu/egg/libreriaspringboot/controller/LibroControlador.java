@@ -163,8 +163,8 @@ public class LibroControlador {
         return rv;
     }
 
-    @GetMapping("/ficha/{id}")
 
+    @GetMapping("/ficha/{id}")
     public ModelAndView mostrarFichaLibro(@PathVariable Integer id){
         ModelAndView mav = new ModelAndView("libro-ficha");
 

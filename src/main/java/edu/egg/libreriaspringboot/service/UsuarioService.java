@@ -17,7 +17,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.Collections;
 import java.util.regex.Pattern;
 
@@ -70,6 +73,13 @@ public class UsuarioService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(MENSAJE, correo)));
 
         GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().getNombre());
+
+        ServletRequestAttributes atributos = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession sesion = atributos.getRequest().getSession(true);
+
+        sesion.setAttribute("id", usuario.getId());
+        sesion.setAttribute("nombre", usuario.getNombre());
+        sesion.setAttribute("apellido", usuario.getApellido());
 
         return new User(usuario.getCorreo(), usuario.getClave(), Collections.singletonList(authority));
     }

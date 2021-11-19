@@ -23,7 +23,8 @@
                             <a class="dropdown-item" th:href="@{/libros/todos}">Mostrar todos</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" th:href="@{/libros/crear}" sec:authorize="hasRole('ADMIN')">Crear libro</a>
+                            <a class="dropdown-item" th:href="@{/libros/crear}" sec:authorize="hasRole('ADMIN')">Crear
+                                libro</a>
                         </li>
                     </ul>
                 </li>
@@ -39,11 +40,11 @@
                             <a class="dropdown-item" th:href="@{/autores/todos}">Mostrar todos</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" th:href="@{/autores/crear}" sec:authorize="hasRole('ADMIN')">Crear autor</a>
+                            <a class="dropdown-item" th:href="@{/autores/crear}" sec:authorize="hasRole('ADMIN')">Crear
+                                autor</a>
                         </li>
                     </ul>
                 </li>
-
 
                 <!--DROPDOWN EDITORIALES-->
                 <li class="nav-item dropdown">
@@ -54,17 +55,35 @@
                     <ul aria-labelledby="dropdown-mascotas" class="dropdown-menu dropdown-menu-dark">
                         <li><a class="dropdown-item" th:href="@{/editoriales/todos}">Mostrar todas</a></li>
                         <li>
-                            <a class="dropdown-item" th:href="@{/editoriales/crear}" sec:authorize="hasRole('ADMIN')">Crear editorial</a>
+                            <a class="dropdown-item" th:href="@{/editoriales/crear}" sec:authorize="hasRole('ADMIN')">Crear
+                                editorial</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!--DROPDOWN USUARIO-->
+                <li class="nav-item dropdown ms-auto">
+                    <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                       id="dropdown-sesion" role="button" th:unless="${session.id == null}"
+                       th:text="|${session.nombre} ${session.apellido}|">
+                    </a>
+
+                    <ul aria-labelledby="dropdown-sesion" class="dropdown-menu dropdown-menu-dark">
+                        <li>
+                            <a class="dropdown-item" th:href="@{/autores/todos}">Mis datos</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" th:href="@{/logout}">Finalizar sesión</a>
                         </li>
                     </ul>
                 </li>
             </ul>
         </div>
-        <div class="text-end">
-            <a class="btn btn-light" th:href="@{/logout}">Finalizar sesión</a>
-        </div>
     </div>
 </nav>
+
+
+
 
 <!--Footer-->
 <footer th:fragment="footer" class="bg-dark text-center text-white">
@@ -73,7 +92,8 @@
         <!-- Section: Social media -->
         <section>
             <!-- Linkedin -->
-            <a class="btn btn-outline-light btn-floating m-1" target="_blank" href="https://www.linkedin.com/in/daniel-alejandro-di-bartolo/" role="button"
+            <a class="btn btn-outline-light btn-floating m-1" target="_blank"
+               href="https://www.linkedin.com/in/daniel-alejandro-di-bartolo/" role="button"
             ><i class="fab fa-linkedin-in"></i
             ></a>
 
@@ -83,7 +103,8 @@
             ></a>
 
             <!-- Github -->
-            <a class="btn btn-outline-light btn-floating m-1" target="_blank" href="https://github.com/DanielDiBartoloit" role="button"
+            <a class="btn btn-outline-light btn-floating m-1" target="_blank"
+               href="https://github.com/DanielDiBartoloit" role="button"
             ><i class="fab fa-github"></i
             ></a>
             <div class="text-center mt-1">&copy; DDB 👽 - 2021</div>
