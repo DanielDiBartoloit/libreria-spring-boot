@@ -61,12 +61,19 @@
                     </ul>
                 </li>
 
+
+
                 <!--DROPDOWN USUARIO-->
                 <li class="nav-item dropdown ms-auto">
+
+
+
                     <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
                        id="dropdown-sesion" role="button" th:unless="${session.id == null}"
                        th:text="|${session.nombre} ${session.apellido}|">
                     </a>
+
+
 
                     <ul aria-labelledby="dropdown-sesion" class="dropdown-menu dropdown-menu-dark">
                         <li>
@@ -79,6 +86,7 @@
                 </li>
             </ul>
         </div>
+        <img class="rounded-circle" width="40" th:src="${session.foto != null} ? @{/uploads/__${session.foto}__} : @{uploads/foto-no-disponible.png}">
     </div>
 </nav>
 

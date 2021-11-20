@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
@@ -32,12 +33,15 @@ public class UsuarioService implements UserDetailsService {
     private UsuarioRepositorio usuarioRepository;
 
     @Autowired
+    private FotoService fotoService;
+
+    @Autowired
     private BCryptPasswordEncoder encoder;
 
     private final String MENSAJE = "El username ingresado no existe %s";
 
     @Transactional
-    public void crear(String nombre, String apellido, String correo, String clave, Rol rol) throws ExcepcionService {
+    public void crear(String nombre, String apellido, String correo, String clave, Rol rol, MultipartFile foto) throws ExcepcionService {
         if (usuarioRepository.existsByCorreo(correo)) {
             throw new ExcepcionService("Ya existe un usuario con el correo ingresado");
         }
@@ -52,6 +56,7 @@ public class UsuarioService implements UserDetailsService {
         usuario.setCorreo(correo);
         usuario.setClave(encoder.encode(clave)); // Encriptación de clave
         usuario.setRol(rol);
+        usuario.setFoto(fotoService.copiar(foto));
         usuario.setAlta(true);
 
         usuarioRepository.save(usuario);
@@ -80,6 +85,7 @@ public class UsuarioService implements UserDetailsService {
         sesion.setAttribute("id", usuario.getId());
         sesion.setAttribute("nombre", usuario.getNombre());
         sesion.setAttribute("apellido", usuario.getApellido());
+        sesion.setAttribute("foto", usuario.getFoto());
 
         return new User(usuario.getCorreo(), usuario.getClave(), Collections.singletonList(authority));
     }

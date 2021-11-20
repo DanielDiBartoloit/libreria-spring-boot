@@ -17,7 +17,7 @@
 <body>
 <nav th:fragment="navbar" class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
     <div class="container d-flex justify-content-end">
-       <!-- <a class="navbar-brand" th:href="@{/login}"><img th:src="@{/img/open-book.png}" width="45"/></a> cuando saque dflex y jcontent -->
+        <!-- <a class="navbar-brand" th:href="@{/login}"><img th:src="@{/img/open-book.png}" width="45"/></a> cuando saque dflex y jcontent -->
 
         <div class="text-end">
             <a class="btn btn-light me-1" th:href="@{/login}">Ingresar</a>
@@ -40,8 +40,9 @@
                     <h3>Registro</h3>
                 </div>
                 <div class="card-body mb-3">
-                    <form id="formulario" class="needs-validation mb-4" th:action="@{/registro}" th:object="${usuario}" method="POST"
-                          autocomplete="off" novalidate>
+                    <form id="formulario" class="needs-validation mb-4" th:action="@{/registro}" th:object="${usuario}"
+                          method="POST"
+                          autocomplete="off" novalidate enctype="multipart/form-data">
 
                         <div class="form-group mb-3">
                             <input id="nombre" type="text" name="nombre" th:field="*{nombre}" placeholder="Nombre"
@@ -73,10 +74,16 @@
                             <div class="invalid-feedback text-start">La contraseña es obligatoria</div>
                         </div>
 
-                        <select class="form-select mt-3 mb-3" aria-label="Elegir rol" id="rol" th:field="*{rol}" required>
+                        <div class="form-group mb-3">
+                            <input class="form-control mt-2" type="file" name="foto">
+                        </div>
+
+                        <select class="form-select mt-3 mb-3" aria-label="Elegir rol" id="rol" th:field="*{rol}"
+                                required>
                             <div class="mb-2"><label for="rol"></label></div>
                             <option selected disabled value="">Seleccione el rol del usuario</option>
-                            <option th:each="rolesUsuario: ${roles}" th:text="${rolesUsuario.nombre}" th:value="${rolesUsuario.id}"></option>
+                            <option th:each="rolesUsuario: ${roles}" th:text="${rolesUsuario.nombre}"
+                                    th:value="${rolesUsuario.id}"></option>
                         </select>
 
                         <div class="form-group d-grid gap-2">
@@ -88,6 +95,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- Footer -->
 <div class="sticky-bottom">

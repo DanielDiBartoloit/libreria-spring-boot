@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
@@ -55,12 +56,12 @@ public class UsuarioControlador {
 
     @PostMapping("/registro")
     //@PreAuthorize("hasRole('ADMIN')") // modificar porque sino no se puede registrar
-    public RedirectView crear(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String correo, @RequestParam String clave, @RequestParam Rol rol, RedirectAttributes attributes) {
+    public RedirectView crear(@RequestParam MultipartFile foto, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String correo, @RequestParam String clave, @RequestParam Rol rol, RedirectAttributes attributes) {
         RedirectView rv = new RedirectView("/login");
 
         try {
             //Rol rol = rolService.buscarRolId(rolId);
-            usuarioService.crear(nombre, apellido, correo, clave, rol);
+            usuarioService.crear(nombre, apellido, correo, clave, rol, foto);
             attributes.addFlashAttribute("exito", "El registro ha sido realizado satisfactoriamente");
 
         } catch (Exception e) {
