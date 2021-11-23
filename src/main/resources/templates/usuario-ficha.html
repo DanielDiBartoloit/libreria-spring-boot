@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="Página de ejemplo de Spring Boot + Thymeleaf para el curso de Egg" name="description"/>
+  <meta content="Daniel Di Bartolo" name="author"/>
+  <title>📚 Ficha Libro - Librería SBoot</title>
+  <!-- FONT -->
+  <script src="https://kit.fontawesome.com/1bc49bd808.js" crossorigin="anonymous"></script>
+  <!-- BOOTSTRAP -->
+  <link rel="stylesheet" th:href="@{/assets/bootstrap.min.css}"/>
+  <!-- CSS -->
+  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<!--Navbar-->
+<nav th:replace="fragmentos :: navbar"></nav>
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card mb-3 h-auto w-75 h-75"> <!-- th:object="${libro}" -->
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img th:src="${session.foto != null} ? @{/uploads/__${session.foto}__} : @{uploads/foto-no-disponible.png}" class="img-fluid h-auto" alt="...">
+
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h3 class="card-title" th:unless="${session.id == null}"
+              th:text="|${session.nombre} ${session.apellido}|"></h3>
+          <p th:text="'Cuenta creada: ' + ${#temporals.format(session.fechaCreacion, 'dd-MM-yyyy')}"></p>
+          <p th:text="'Última modificación: ' + ${#temporals.format(session.fechaModificacion, 'dd-MM-yyyy')}"></p>
+          <!--<a href="#" class="btn btn-success float-right" th:unless="${libro.ejemplaresRestantes == 0}">Reservar >></a> -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Footer-->
+<div class="fluid-bottom">
+  <footer th:replace="fragmentos :: footer"></footer>
+</div>
+<!-- JavaScript -->
+<script th:src="@{/assets/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

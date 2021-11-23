@@ -56,11 +56,16 @@ public class UsuarioService implements UserDetailsService {
         usuario.setCorreo(correo);
         usuario.setClave(encoder.encode(clave)); // Encriptación de clave
         usuario.setRol(rol);
-        usuario.setFoto(fotoService.copiar(foto));
+
+        if(!foto.isEmpty()){
+            usuario.setFoto(fotoService.copiar(foto));
+        }
+
         usuario.setAlta(true);
 
         usuarioRepository.save(usuario);
     }
+
 
     public void validarUsuario(String nombre, String apellido, String correo, String clave) throws ExcepcionService {
 
@@ -86,6 +91,8 @@ public class UsuarioService implements UserDetailsService {
         sesion.setAttribute("nombre", usuario.getNombre());
         sesion.setAttribute("apellido", usuario.getApellido());
         sesion.setAttribute("foto", usuario.getFoto());
+        sesion.setAttribute("fechaCreacion", usuario.getCreacion());
+        sesion.setAttribute("fechaModificacion", usuario.getModificacion());
 
         return new User(usuario.getCorreo(), usuario.getClave(), Collections.singletonList(authority));
     }

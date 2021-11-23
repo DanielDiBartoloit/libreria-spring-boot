@@ -77,6 +77,14 @@ public class UsuarioControlador {
         return rv;
     }
 
+    @GetMapping("/usuarios/ficha/{id}")
+    public ModelAndView mostrarFicha(){
+        ModelAndView mav = new ModelAndView("usuario-ficha");
+        return mav;
+    }
+
+
+
 }
 
 
